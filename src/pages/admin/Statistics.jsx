@@ -1,82 +1,153 @@
-import { useEffect, useState } from "react";
-import ButtonComponent from "../../components/buttons/ButtonComponent";
-import DataTable from "../../components/table/DataTable";
-import LoadingSpinner from "../../components/actions/LoadingSpinner";
-import NoDataError from "../../components/actions/NoDataError";
+import DropDownComponent from "../../components/inputs/DropDownComponent";
+import StatisticsBox from "../../components/layout/StatisticsBox";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { axisClasses } from "@mui/x-charts/ChartsAxis";
+import currencyFormatting from "../../util/currencyFormatting";
+import SectionTitle from "../../components/titles/SectionTitle";
+
+const chartSetting = {
+  yAxis: [
+    {
+      label: "الأرباح بالليرة سورية",
+    },
+  ],
+  width: 800,
+  height: 400,
+  sx: {
+    [`.${axisClasses.left} .${axisClasses.label}`]: {
+      transform: "translate(-60px, 0)",
+      fill: "#2DBDA8",
+    },
+  },
+};
+
+const dataset = [
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Jan",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Feb",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Mar",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Apr",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "May",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "June",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "July",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Aug",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Sept",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Oct",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Nov",
+  },
+  {
+    "حمص 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "دمشق 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "حمص 2": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    "اللاذقية 1": Math.floor(Math.random() * (90000000 - 30000000)) + 30000000,
+    month: "Dec",
+  },
+];
+
+console.log(dataset)
 
 function Statistics() {
-  const [formattedData, setFormattedData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await fetch("http://localhost:3000/branches");
-        if (!response.ok) {
-          throw new Error("!حدث خطأ في جلب البيانات");
-        }
-        const json = await response.json();
-        const data = formatting(json);
-        setFormattedData(data);
-      } catch (e) {
-        setError(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-  const formatting = (unFormattedData) => {
-    const rowsData = unFormattedData.map((row) => ({
-      id: row.id,
-      branchName: `${row.city} ${row.branchNumber}`,
-      address: `${row.street}, ${row.area}, ${row.city}`,
-      branchManager: row.branchManager,
-      options: <ButtonComponent />,
-    }));
-    return rowsData;
-  };
-
-  const columns = [
-    { field: "id", headerName: "ID", width: 50 },
-    {
-      field: "branchName",
-      headerName: "الفرع",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "العنوان",
-      flex: 1,
-    },
-    {
-      field: "branchManager",
-      headerName: "مدير الفرع",
-      flex: 1,
-    },
-    {
-      field: "options",
-      headerName: "خيارات",
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <ButtonComponent variant={"show"} small={true} onClick={() => {}} />
-        );
-      },
-    },
-  ];
+  const valueFormatter = (value) => currencyFormatting(value);
   return (
     <section className="flex flex-col items-center justify-center gap-8 w-full bg-white rounded-[30px] p-4 my-box-shadow ">
-      {loading ? (
-        <LoadingSpinner />
-      ) : error ? (
-        <NoDataError error={error} />
-      ) : (
-        <DataTable columns={columns} rows={formattedData} />
-      )}
+      <div className="flex flex-row-reverse items-center justify-end w-full gap-4">
+        <DropDownComponent label="المدة الزمنية:" data={[]} />
+        <DropDownComponent label="سنة:" data={[]} />
+      </div>
+      <div className="flex flex-row-reverse items-center justify-end w-full gap-4">
+        <StatisticsBox type={"orangeGold"} />
+        <StatisticsBox type={"lavender"} />
+        <StatisticsBox type={"halloweenOrange"} />
+        <StatisticsBox type={"topaz"} />
+      </div>
+      <div className="flex flex-col items-center justify-center w-full gap-4">
+        <SectionTitle text={"رسم بياني للأرباح حسب كل فرع:"} />
+        <div className="w-full flex items-center justify-center">
+          <BarChart
+            dataset={dataset}
+            xAxis={[{ scaleType: "band", dataKey: "month" }]}
+            series={[
+              {
+                dataKey: "حمص 1",
+                label: "حمص 1",
+                valueFormatter,
+              },
+              { dataKey: "دمشق 1", label: "دمشق 1", valueFormatter },
+              {
+                dataKey: "حمص 2",
+                label: "حمص 2",
+                valueFormatter,
+              },
+              { dataKey: "اللاذقية 1", label: "اللاذقية 1", valueFormatter },
+            ]}
+            {...chartSetting}
+          />
+        </div>
+      </div>
     </section>
   );
 }
