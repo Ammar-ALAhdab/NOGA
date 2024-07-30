@@ -66,18 +66,18 @@ function SideBar({ role }) {
                   } h-[42px] hover:text-yellow-400 hover:border-b-yellow-400 my-parent-hover transition-all`}
                 >
                   {isExpanded && (
-                    <span className="lg:text-sm md:text-xs">{label}</span>
+                    <span className="lg:text-sm md:text-[13px]">{label}</span>
                   )}
                   <div>
                     <img
                       src={values[0]}
                       alt={values[0]}
-                      className="my-child-none md:w-4 lg:w-[22px] md:h-4 lg:h-[22px]"
+                      className="my-child-none md:w-[18px] lg:w-[22px] md:h-[18px] lg:h-[22px]"
                     />
                     <img
                       src={values[1]}
                       alt={values[0]}
-                      className="hidden my-child-block md:w-4 lg:w-6 md:h-4 lg:h-6"
+                      className="hidden my-child-block md:w-[18px] lg:w-6 md:h-4 lg:[18px]-6"
                     />
                   </div>
                 </button>
@@ -89,18 +89,18 @@ function SideBar({ role }) {
                   } h-[42px] hover:text-yellow-400 hover:border-b-yellow-400 my-parent-hover transition-all`}
                 >
                   {isExpanded && (
-                    <span className="lg:text-sm md:text-xs">{label}</span>
+                    <span className="lg:text-sm md:text-[13px]">{label}</span>
                   )}
                   <div>
                     <img
                       src={values[0]}
                       alt={values[0]}
-                      className="my-child-none md:w-4 lg:w-[22px] md:h-4 lg:h-[22px]"
+                      className="my-child-none md:w-[18px] lg:w-[22px] md:h-[18px] lg:h-[22px]"
                     />
                     <img
                       src={values[1]}
                       alt={values[0]}
-                      className="hidden my-child-block md:w-4 lg:w-[22px] md:h-4 lg:h-[22px]"
+                      className="hidden my-child-block md:w-[18px] lg:w-[22px] md:h-[18px] lg:h-[22px]"
                     />
                   </div>
                 </NavLink>

@@ -18,7 +18,7 @@ const cacheRtl = createCache({
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
-function DataTable({ columns, rows }) {
+function DataTable({ columns, rows}) {
   const existingTheme = useTheme();
   const theme = useMemo(
     () =>
@@ -98,6 +98,7 @@ function DataTable({ columns, rows }) {
               },
             }}
             hideFooter={true}
+            filterMode="server"
           />
         </div>
       </ThemeProvider>

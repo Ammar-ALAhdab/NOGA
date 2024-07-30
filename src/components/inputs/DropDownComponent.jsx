@@ -77,12 +77,14 @@ function DropDownComponent({
   });
 
   return (
-    <div className="flex items-center justify-end w-full">
+    <div
+      className={`flex items-center justify-end w-full`}
+    >
       <div
         dir="rtl"
-        className="flex items-center justify-between gap-8 w-[500px]"
+        className={`flex items-center justify-between gap-8 w-[500px]`}
       >
-        <p className="text-base">{label}</p>
+        {label && <p className="text-base">{label}</p>}
         <Button
           id="selectButton"
           aria-controls="select-menu"

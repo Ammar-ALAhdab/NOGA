@@ -6,6 +6,7 @@ import ButtonComponent from "../../components/buttons/ButtonComponent";
 import useGoToBack from "../../hooks/useGoToBack";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useToast from "../../hooks/useToast";
+import { useNavigate } from "react-router-dom";
 
 const initState = {
   city: "",
@@ -34,6 +35,7 @@ function AddBranch() {
   const axiosPrivate = useAxiosPrivate();
   const handleClickBack = useGoToBack();
   const Toast = useToast();
+  const navigate = useNavigate();
 
   const getCities = async (link) => {
     try {
@@ -101,7 +103,7 @@ function AddBranch() {
         title: "تمت عملية الإضافة بنجاح",
       });
       setTimeout(() => {
-        location.reload();
+        navigate(-1);
       }, 3000);
     } catch (error) {
       console.log(error);

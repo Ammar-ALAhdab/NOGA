@@ -158,3 +158,58 @@ li a.active .my-child-none {
 }
 
 /* End Sweetalret2 CSS */
+
+/* Start Custom DropDown  */
+.custom-select {
+  width: 250px;
+  position: relative;
+}
+
+.custom-select select {
+  appearance: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+  padding: 0.675em 6em 0.675em 1em;
+  background-color: #3457d5;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.custom-select select option{
+  color: white;
+}
+
+.custom-select::before,
+.custom-select::after {
+  --size: 0.3rem;
+  content: "";
+  position: absolute;
+  right: 1rem;
+  pointer-events: none;
+}
+
+.custom-select::before {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-bottom: var(--size) solid #fff;
+  top: 40%;
+}
+
+.custom-select::after {
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid #fff;
+  top: 55%;
+}
+/* End Custom DropDown  */
+
+
+.my-filter-box {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+}

@@ -120,7 +120,7 @@ function AddEmployee({userType}) {
     }
   };
 
-  const getJobsTypes = async (url) => {
+  const getJobsTypes = async (url = "/job-types") => {
     try {
       const response = await axiosPrivate.get(url);
       setJobsTypes((prev) => [...prev, ...response.data.results]);
@@ -172,7 +172,7 @@ function AddEmployee({userType}) {
 
   useEffect(() => {
     getBranches("/branches");
-    getJobsTypes("/job-types");
+    getJobsTypes();
     getCurrentDate();
   }, []);
 

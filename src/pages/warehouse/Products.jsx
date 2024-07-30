@@ -40,7 +40,9 @@ function Products() {
   };
 
   const handleChangePage = (event, value) => {
-    getProducts(`/products?page=${value}`);
+    getProducts(
+      `/products?page=${value}${searchQuery ? `&search=${searchQuery}` : ""}`
+    );
   };
 
   const handleSearchClick = () => {

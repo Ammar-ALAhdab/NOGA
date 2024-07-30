@@ -6,7 +6,6 @@ import useScreenResize from "../../hooks/useScreenResize.js";
 
 function Admin() {
   const showScreenAlert = useScreenResize();
-
   return (
     <div className="bg-primary z-10 ">
       {showScreenAlert && <ScreenSizeAlert />}
