@@ -15,7 +15,7 @@ const LOGIN_URL = "/login";
 const LOGIN_PATH = {
   admin: "admin",
   CEO: "admin",
-  Manager: "manager",
+  Manager: "branchManager",
   HR: "HR",
   "Warehouse Administrator": "warehouseAdmin",
   "Sales Officer": "salesOfficer",

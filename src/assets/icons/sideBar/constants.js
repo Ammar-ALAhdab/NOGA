@@ -26,8 +26,8 @@ import warehouseAdSendProductsHover from "./warehouseAdmin/warehouse_admin_send_
 import warehouseAdminReturnProductsHover from "./warehouseAdmin/warehouse_admin_return_products_h.svg";
 import warehouseAdminProductsLogHover from "./warehouseAdmin/warehouse_admin_products_log_h.svg";
 import warehouseAdminManageRequestsHover from "./warehouseAdmin/warehouse_admin_manage_requests_h.svg";
-import branchAdminProductsRequestLog from "./branchAdmin/branch_admin_products_request_log.svg";
-import branchAdminProductsRequestLogHover from "./branchAdmin/branch_admin_products_request_log_h.svg";
+import branchManagerProductsRequestLog from "./branchManager/branch_admin_products_request_log.svg";
+import branchManagerProductsRequestLogHover from "./branchManager/branch_admin_products_request_log_h.svg";
 import logout from "./logout.svg";
 import logoutHover from "./logout_h.svg";
 import profileIcon from "./profile_icon.svg";
@@ -48,21 +48,21 @@ const navData = {
       "تسجيل الخروج": [logout, logoutHover, "logout"],
     },
   },
-  salesEmployee: {
+  salesOfficer: {
     role: "موظف المبيعات:",
     links: {
-      المنتجات: [salesProducts, salesProductsHover, "salesProducts"],
-      الزبائن: [salesCustomers, salesCustomersHover, "salesCustomers"],
-      "إجراء عملية بيع": [salesSale, salesSaleHover, "salesSale"],
+      المنتجات: [salesProducts, salesProductsHover, "products"],
+      الزبائن: [salesCustomers, salesCustomersHover, "customers"],
+      "إجراء عملية بيع": [salesSale, salesSaleHover, "sale"],
       "إنشاء سجل زبون": [
         salesAddCustomer,
         salesAddCustomerHover,
-        "salesAddCustomer",
+        "addCustomer",
       ],
       "سجل المبيعات": [
         salesProductsLog,
         salesProductsLogHover,
-        "salesProductsLog",
+        "productsLog",
       ],
       "تسجيل الخروج": [logout, logoutHover, "logout"],
     },
@@ -106,29 +106,29 @@ const navData = {
       "تسجيل الخروج": [logout, logoutHover, "logout"],
     },
   },
-  branchAdmin: {
+  branchManager: {
     role: "مدير فرع:",
     links: {
       الإحصائيات: [
         adminStatistics,
         adminStatisticsHover,
-        "branchAdminStatistics",
+        "statistics",
       ],
-      المنتجات: [salesProducts, salesProductsHover, "branchAdminProducts"],
+      المنتجات: [salesProducts, salesProductsHover, "products"],
       "طلب المنتجات": [
         warehouseAdSendProducts,
         warehouseAdSendProductsHover,
-        "branchAdminProductsRequest",
+        "productsRequest",
       ],
       "سجل الطلبات": [
-        branchAdminProductsRequestLog,
-        branchAdminProductsRequestLogHover,
-        "branchAdminProductsRequestLog",
+        branchManagerProductsRequestLog,
+        branchManagerProductsRequestLogHover,
+        "productsRequestLog",
       ],
       "سجل المبيعات": [
         salesProductsLog,
         salesProductsLogHover,
-        "branchAdminSalesLog",
+        "salesLog",
       ],
       "تسجيل الخروج": [logout, logoutHover, "logout"],
     },

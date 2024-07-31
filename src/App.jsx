@@ -31,6 +31,9 @@ import EmployeeDetails from "./pages/admin/EmployeeDetails.jsx";
 import CreateAccount from "./pages/admin/CreateAccount.jsx";
 import HrSettings from "./pages/hr/HrSettings.jsx";
 import ProductsLog from "./pages/warehouse/ProductsLog.jsx";
+import BranchManager from "./pages/manager/BranchManager.jsx";
+import BranchProducts from "./pages/manager/BranchProducts.jsx";
+import SalesOfficer from "./pages/sales/SalesOfficer.jsx";
 
 export default function App() {
   return (
@@ -101,11 +104,11 @@ export default function App() {
               />
               <Route
                 path="manageEmployees/addEmployee"
-                element={<AddEmployee userType={"admin"}/>}
+                element={<AddEmployee userType={"admin"} />}
               />
               <Route
                 path="manageEmployees/createAccount"
-                element={<CreateAccount userType={"admin"}/>}
+                element={<CreateAccount userType={"admin"} />}
               />
             </Route>
           </Route>
@@ -149,6 +152,27 @@ export default function App() {
             </Route>
           </Route>
           {/* ----- END WarehouseAdmin Routes ----- */}
+
+          {/* ----- Start Branch Manger Routes ----- */}
+          <Route element={<RequireAuth allowedRole={["Manager"]} />}>
+            <Route path="/branchManager" element={<BranchManager />}>
+              {/* Redirect to statistics by default */}
+              <Route index element={<Navigate to="statistics" />} />
+              <Route path="statistics" element={<Statistics />} />
+              <Route path="products" element={<BranchProducts />} />
+            </Route>
+          </Route>
+          {/* ----- End Branch Manger Routes ----- */}
+
+          {/* ----- Start Sales Officer Routes ----- */}
+          <Route element={<RequireAuth allowedRole={["Sales Officer"]} />}>
+            <Route path="/salesOfficer" element={<SalesOfficer />}>
+              {/* Redirect to statistics by default */}
+              <Route index element={<Navigate to="products" />} />
+              <Route path="products" element={<BranchProducts />} />
+            </Route>
+          </Route>
+          {/* ----- End Sales Officer Routes ----- */}
         </Route>
 
         {/* End Protected Routes */}
