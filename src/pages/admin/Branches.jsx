@@ -72,6 +72,7 @@ function Branches() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterShow, setFilterShow] = useState(false);
   const [filterTerms, setFilterTerms] = useState("");
+  const [scrollTop, setScrollTop] = useState(0);
   const navigate = useNavigate();
   const navigateToBranchByID = useNavigate();
   const axiosPrivate = useAxiosPrivate();
@@ -119,11 +120,16 @@ function Branches() {
   const handleShowFilter = () => {
     setFilterShow(true);
     document.body.style.overflow = "hidden";
+    setScrollTop(document.documentElement.scrollTop);
+    document.documentElement.scrollTop = 0;
   };
 
   const handleCloseFilter = () => {
     setFilterShow(false);
     document.body.style.overflow = "auto";
+    setTimeout(() => {
+      document.documentElement.scrollTop = scrollTop;
+    }, 300);
   };
 
   const getCities = async (link = "/cities") => {
@@ -242,65 +248,70 @@ function Branches() {
               onClickSearch={handleSearchClick}
             />
           </div>
-          {filterShow && (
-            <div className="absolute my-filter-box flex flex-col items-center justify-center w-full h-[300%] p-4 z-[200]">
-              <div className="flex flex-col items-center justify-center gap-2 relative w-fit pl-8 pr-8 pb-8 pt-4 rounded-3xl bg-white my-box-shadow">
-                <SectionTitle text={"خيارات الفلترة:"} />
-                <button
-                  className="absolute top-3 left-3 w-8 h-8 bg-halloweenOrange text-white z-100 rounded-full"
-                  onClick={handleCloseFilter}
-                >
-                  <FontAwesomeIcon icon={faX} />
-                </button>
-                <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
-                  <FilterInputComponent
-                    name="managerName"
-                    placeholder="فتلرة حسب اسم المدير"
-                    value={state.managerName}
-                    onChange={handleFilterTerms}
-                  />
-                  <FilterDropDown
-                    data={cities}
-                    dataTitle={"city_name"}
-                    value={state.city}
-                    label={"فلترة حسب الوظيفة"}
-                    name={"city"}
-                    onChange={handleFilterTerms}
-                  />
-                </div>
-                <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
-                  <FilterDropDown
-                    data={ORDERING_FIELDS}
-                    dataTitle={"title"}
-                    value={state.ordering}
-                    label={"ترتيب حسب حقل"}
-                    name={"ordering"}
-                    onChange={handleFilterTerms}
-                  />
-                  <FilterDropDown
-                    data={ORDERING_TYPE}
-                    dataTitle={"title"}
-                    value={state.orderingType}
-                    label={"نمط الترتيب"}
-                    name={"orderingType"}
-                    onChange={handleFilterTerms}
-                  />
-                </div>
-                <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
-                  <ButtonComponent
-                    variant={"delete"}
-                    textButton="إزالة الفلتر"
-                    onClick={() => dispatch({ type: "RESET" })}
-                  />
-                  <ButtonComponent
-                    variant={"filter"}
-                    textButton="بحث حسب الفلتر"
-                    onClick={handleFilterClick}
-                  />
-                </div>
+
+          <div
+            className="absolute my-filter-box flex flex-col items-center justify-center w-full h-full p-4 z-[200]"
+            style={{
+              opacity: filterShow ? 1 : 0,
+              visibility: filterShow ? "visible" : "hidden",
+            }}
+          >
+            <div className="flex flex-col items-center justify-center gap-2 relative w-fit pl-8 pr-8 pb-8 pt-4 rounded-3xl bg-white my-box-shadow">
+              <SectionTitle text={"خيارات الفلترة:"} />
+              <button
+                className="absolute top-3 left-3 w-8 h-8 bg-halloweenOrange text-white z-100 rounded-full"
+                onClick={handleCloseFilter}
+              >
+                <FontAwesomeIcon icon={faX} />
+              </button>
+              <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
+                <FilterInputComponent
+                  name="managerName"
+                  placeholder="فتلرة حسب اسم المدير"
+                  value={state.managerName}
+                  onChange={handleFilterTerms}
+                />
+                <FilterDropDown
+                  data={cities}
+                  dataTitle={"city_name"}
+                  value={state.city}
+                  label={"فلترة حسب الوظيفة"}
+                  name={"city"}
+                  onChange={handleFilterTerms}
+                />
+              </div>
+              <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
+                <FilterDropDown
+                  data={ORDERING_FIELDS}
+                  dataTitle={"title"}
+                  value={state.ordering}
+                  label={"ترتيب حسب حقل"}
+                  name={"ordering"}
+                  onChange={handleFilterTerms}
+                />
+                <FilterDropDown
+                  data={ORDERING_TYPE}
+                  dataTitle={"title"}
+                  value={state.orderingType}
+                  label={"نمط الترتيب"}
+                  name={"orderingType"}
+                  onChange={handleFilterTerms}
+                />
+              </div>
+              <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
+                <ButtonComponent
+                  variant={"delete"}
+                  textButton="إزالة الفلتر"
+                  onClick={() => dispatch({ type: "RESET" })}
+                />
+                <ButtonComponent
+                  variant={"filter"}
+                  textButton="بحث حسب الفلتر"
+                  onClick={handleFilterClick}
+                />
               </div>
             </div>
-          )}
+          </div>
         </div>
 
         {/* ################################### END SEARCH AND FILTER ################################### */}

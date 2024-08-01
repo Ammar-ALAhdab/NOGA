@@ -55,6 +55,7 @@ function Employees() {
   const [filterTerms, setFilterTerms] = useState("");
   const [jobsTypes, setJobsTypes] = useState([]);
   const [branches, setBranches] = useState([]);
+  const [scrollTop, setScrollTop] = useState(0);
   const [, setPage] = useState(1);
   const navigate = useNavigate();
   const navigateToEmployeeByID = useNavigate();
@@ -89,11 +90,16 @@ function Employees() {
   const handleShowFilter = () => {
     setFilterShow(true);
     document.body.style.overflow = "hidden";
+    setScrollTop(document.documentElement.scrollTop);
+    document.documentElement.scrollTop = 0;
   };
 
   const handleCloseFilter = () => {
     setFilterShow(false);
     document.body.style.overflow = "auto";
+    setTimeout(() => {
+      document.documentElement.scrollTop = scrollTop;
+    }, 300);
   };
 
   const handleClickAddEmployee = () => {
@@ -262,75 +268,80 @@ function Employees() {
               onClickSearch={handleSearchClick}
             />
           </div>
-          {filterShow && (
-            <div className="absolute my-filter-box flex flex-col items-center justify-center w-full h-[300%] p-4 z-[200]">
-              <div className="flex flex-col items-center justify-center gap-2 relative w-fit pl-8 pr-8 pb-8 pt-4 rounded-3xl bg-white my-box-shadow">
-                <SectionTitle text={"خيارات الفلترة:"} />
-                <button
-                  className="absolute top-3 left-3 w-8 h-8 bg-halloweenOrange text-white z-100 rounded-full"
-                  onClick={handleCloseFilter}
-                >
-                  <FontAwesomeIcon icon={faX} />
-                </button>
-                <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
-                  <FilterInputComponent
-                    name="name"
-                    placeholder="فتلرة حسب الاسم"
-                    value={state.name}
-                    onChange={handleFilterTerms}
-                  />
-                  <div className="custom-select">
-                    <FilterDropDown
-                      data={jobsTypes}
-                      dataTitle={"job_type"}
-                      value={state.jobType}
-                      label={"فلترة حسب الوظيفة"}
-                      name={"jobType"}
-                      onChange={handleFilterTerms}
-                    />
-                  </div>
+
+          <div
+            className="absolute my-filter-box flex flex-col items-center justify-center w-full h-full p-4 z-[200]"
+            style={{
+              opacity: filterShow ? 1 : 0,
+              visibility: filterShow ? "visible" : "hidden",
+            }}
+          >
+            <div className="flex flex-col items-center justify-center gap-2 relative w-fit pl-8 pr-8 pb-8 pt-4 rounded-3xl bg-white my-box-shadow">
+              <SectionTitle text={"خيارات الفلترة:"} />
+              <button
+                className="absolute top-3 left-3 w-8 h-8 bg-halloweenOrange text-white z-100 rounded-full"
+                onClick={handleCloseFilter}
+              >
+                <FontAwesomeIcon icon={faX} />
+              </button>
+              <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
+                <FilterInputComponent
+                  name="name"
+                  placeholder="فتلرة حسب الاسم"
+                  value={state.name}
+                  onChange={handleFilterTerms}
+                />
+                <div className="custom-select">
                   <FilterDropDown
-                    data={branches}
-                    dataTitle={"title"}
-                    value={state.branch}
-                    label={"فلترة حسب الفرع"}
-                    name={"branch"}
+                    data={jobsTypes}
+                    dataTitle={"job_type"}
+                    value={state.jobType}
+                    label={"فلترة حسب الوظيفة"}
+                    name={"jobType"}
                     onChange={handleFilterTerms}
                   />
                 </div>
-                <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
-                  <FilterDropDown
-                    data={ORDERING_FIELDS}
-                    dataTitle={"title"}
-                    value={state.ordering}
-                    label={"ترتيب حسب حقل"}
-                    name={"ordering"}
-                    onChange={handleFilterTerms}
-                  />
-                  <FilterDropDown
-                    data={ORDERING_TYPE}
-                    dataTitle={"title"}
-                    value={state.orderingType}
-                    label={"نمط الترتيب"}
-                    name={"orderingType"}
-                    onChange={handleFilterTerms}
-                  />
-                </div>
-                <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
-                  <ButtonComponent
-                    variant={"delete"}
-                    textButton="إزالة الفلتر"
-                    onClick={() => dispatch({ type: "RESET" })}
-                  />
-                  <ButtonComponent
-                    variant={"filter"}
-                    textButton="بحث حسب الفلتر"
-                    onClick={handleFilterClick}
-                  />
-                </div>
+                <FilterDropDown
+                  data={branches}
+                  dataTitle={"title"}
+                  value={state.branch}
+                  label={"فلترة حسب الفرع"}
+                  name={"branch"}
+                  onChange={handleFilterTerms}
+                />
+              </div>
+              <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
+                <FilterDropDown
+                  data={ORDERING_FIELDS}
+                  dataTitle={"title"}
+                  value={state.ordering}
+                  label={"ترتيب حسب حقل"}
+                  name={"ordering"}
+                  onChange={handleFilterTerms}
+                />
+                <FilterDropDown
+                  data={ORDERING_TYPE}
+                  dataTitle={"title"}
+                  value={state.orderingType}
+                  label={"نمط الترتيب"}
+                  name={"orderingType"}
+                  onChange={handleFilterTerms}
+                />
+              </div>
+              <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
+                <ButtonComponent
+                  variant={"delete"}
+                  textButton="إزالة الفلتر"
+                  onClick={() => dispatch({ type: "RESET" })}
+                />
+                <ButtonComponent
+                  variant={"filter"}
+                  textButton="بحث حسب الفلتر"
+                  onClick={handleFilterClick}
+                />
               </div>
             </div>
-          )}
+          </div>
         </div>
         {/* ################################### END SEARCH AND FILTER ################################### */}
 

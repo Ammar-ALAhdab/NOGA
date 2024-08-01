@@ -16,7 +16,7 @@ const formatting = (unFormattedData) => {
   const rowsData = unFormattedData.map((row) => ({
     id: row.id,
     profilePhoto: row.category_name == "Phone" ? phone : accessor,
-    barcode: row.id,
+    barcode: row.qr_code? row.qr_code : "لايوجد",
     productName: row.product_name,
     type: row.category_name == "Phone" ? "موبايل" : "إكسسوار",
     sellingPrice: currencyFormatting(row.selling_price),
@@ -55,15 +55,12 @@ function Products() {
       setErrorProducts(null);
       const response = await axiosPrivate.get(link);
       const formattedProducts = formatting(response?.data?.results);
-      setProducts((prev) => [...prev, ...formattedProducts]);
+      setProducts( formattedProducts);
       setPaginationSettings({
         count: response.data.count,
         next: response.data.next,
         previous: response.data.previous,
       });
-      if (response.data.next) {
-        getProducts(response.data.next);
-      }
     } catch (error) {
       console.log(error);
       setErrorProducts(error);
@@ -165,7 +162,10 @@ function Products() {
       <div className="w-full flex items-center flex-row-reverse gap-2 mb-4">
         <ButtonComponent variant={"add"} onClick={handleClick} />
       </div>
-      <section className="flex flex-col items-center justify-center w-full bg-white rounded-[30px] p-4 my-box-shadow gap-8">
+      <section
+        className="flex flex-col items-center justify-center w-full bg-white rounded-[30px] p-4 my-box-shadow gap-8"
+        onClick={() => console.log(products)}
+      >
         <SearchComponent
           onChange={setSearchQuery}
           value={searchQuery}
@@ -183,7 +183,7 @@ function Products() {
         <TablePagination
           count={paginationSettings?.count}
           handleChangePage={handleChangePage}
-          rowsName={"الأفرع"}
+          rowsName={"المنتجات"}
         />
       </section>
     </main>

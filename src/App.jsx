@@ -1,3 +1,4 @@
+import { Navigate, Route, Routes } from "react-router-dom";
 import ErrorPage from "./pages/public/ErrorPage.jsx";
 import Admin from "./pages/admin/Admin.jsx";
 import Branches from "./pages/admin/Branches.jsx";
@@ -18,7 +19,6 @@ import AddEmployee from "./pages/admin/AddEmployee.jsx";
 import Hr from "./pages/hr/Hr.jsx";
 import Login from "./pages/public/Login.jsx";
 import Layout from "./pages/public/Layout.jsx";
-import { Navigate, Route, Routes } from "react-router-dom";
 import RequireAuth from "./auth/RequireAuth.jsx";
 import WarehouseAdmin from "./pages/warehouse/WarehouseAdmin.jsx";
 import Products from "./pages/warehouse/Products.jsx";
@@ -34,6 +34,7 @@ import ProductsLog from "./pages/warehouse/ProductsLog.jsx";
 import BranchManager from "./pages/manager/BranchManager.jsx";
 import BranchProducts from "./pages/manager/BranchProducts.jsx";
 import SalesOfficer from "./pages/sales/SalesOfficer.jsx";
+import WareHouseSettings from "./pages/warehouse/WareHouseSettings.jsx";
 
 export default function App() {
   return (
@@ -149,6 +150,7 @@ export default function App() {
               <Route path="sendProducts" element={<SendProducts />} />
               <Route path="returnProducts" element={<ReturnProducts />} />
               <Route path="productsLog" element={<ProductsLog />} />
+              <Route path="settings" element={<WareHouseSettings />} />
             </Route>
           </Route>
           {/* ----- END WarehouseAdmin Routes ----- */}
@@ -167,7 +169,7 @@ export default function App() {
           {/* ----- Start Sales Officer Routes ----- */}
           <Route element={<RequireAuth allowedRole={["Sales Officer"]} />}>
             <Route path="/salesOfficer" element={<SalesOfficer />}>
-              {/* Redirect to statistics by default */}
+              {/* Redirect to products by default */}
               <Route index element={<Navigate to="products" />} />
               <Route path="products" element={<BranchProducts />} />
             </Route>

@@ -59,11 +59,7 @@ const navData = {
         salesAddCustomerHover,
         "addCustomer",
       ],
-      "سجل المبيعات": [
-        salesProductsLog,
-        salesProductsLogHover,
-        "productsLog",
-      ],
+      "سجل المبيعات": [salesProductsLog, salesProductsLogHover, "productsLog"],
       "تسجيل الخروج": [logout, logoutHover, "logout"],
     },
   },
@@ -103,17 +99,15 @@ const navData = {
         warehouseAdminManageRequestsHover,
         "manageRequests",
       ],
+      الإعدادات: [adminSettings, adminSettingsHover, "settings"],
+
       "تسجيل الخروج": [logout, logoutHover, "logout"],
     },
   },
   branchManager: {
     role: "مدير فرع:",
     links: {
-      الإحصائيات: [
-        adminStatistics,
-        adminStatisticsHover,
-        "statistics",
-      ],
+      الإحصائيات: [adminStatistics, adminStatisticsHover, "statistics"],
       المنتجات: [salesProducts, salesProductsHover, "products"],
       "طلب المنتجات": [
         warehouseAdSendProducts,
@@ -125,11 +119,7 @@ const navData = {
         branchManagerProductsRequestLogHover,
         "productsRequestLog",
       ],
-      "سجل المبيعات": [
-        salesProductsLog,
-        salesProductsLogHover,
-        "salesLog",
-      ],
+      "سجل المبيعات": [salesProductsLog, salesProductsLogHover, "salesLog"],
       "تسجيل الخروج": [logout, logoutHover, "logout"],
     },
   },

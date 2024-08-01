@@ -108,8 +108,6 @@ const dataset = [
   },
 ];
 
-console.log(dataset)
-
 function Statistics() {
   const valueFormatter = (value) => currencyFormatting(value);
   return (
