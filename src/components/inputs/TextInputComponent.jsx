@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 function TextInputComponent({
   label,
   onChange = () => {},
+  onChangeEvent = () => {},
   value,
   id = label,
   dir = "rtl",
@@ -11,6 +12,7 @@ function TextInputComponent({
 }) {
   const handleChange = (event) => {
     onChange(event.target.value);
+    onChangeEvent(event);
   };
 
   return (
@@ -41,6 +43,7 @@ export default TextInputComponent;
 TextInputComponent.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func,
+  onChangeEvent: PropTypes.func,
   value: PropTypes.any,
   id: PropTypes.string,
   dir: PropTypes.string,

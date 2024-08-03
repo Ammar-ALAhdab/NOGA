@@ -65,18 +65,19 @@ const ButtonComponent = ({
   },
   type,
   small,
+  disabled = false,
 }) => {
   // Default is add button if variant is not defined
   const { text, icon, backgroundColor } =
     buttonVariants[variant] || buttonVariants.add;
 
   const buttonStyle = {
-    backgroundColor,
+    backgroundColor: disabled ? "#9290C3" : backgroundColor,
     padding: `${small ? "2px 8px" : "4px 16px"}`,
     border: "none",
     borderRadius: `${small ? "15px" : "30px"}`,
     color: "white",
-    cursor: "pointer",
+    cursor: disabled ? "not-allowed" : "pointer",
     display: "inline-flex",
     flexDirection: `${small ? "row-reverse" : ""}`,
     alignItems: "center",
@@ -87,7 +88,12 @@ const ButtonComponent = ({
   };
 
   return (
-    <button type={type} style={buttonStyle} onClick={onClick}>
+    <button
+      type={type}
+      style={buttonStyle}
+      onClick={onClick}
+      disabled={disabled}
+    >
       <img src={icon} alt={icon} width={18} height={18} />
       {textButton ? textButton : text}
     </button>
@@ -100,6 +106,7 @@ ButtonComponent.propTypes = {
   onClick: PropTypes.func,
   type: PropTypes.string,
   small: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default ButtonComponent;

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-function TextAreaComponent({ onChange, id }) {
-  const [text, setText] = useState("");
+function TextAreaComponent({value,  onChange, id }) {
+  const [text, setText] = useState(value);
   const handleTextChange = (e) => {
     setText(e.target.value);
-    onChange(e.target.value);
+    onChange(e);
   };
   return (
     <textarea
@@ -20,6 +20,7 @@ function TextAreaComponent({ onChange, id }) {
 
 TextAreaComponent.propTypes = {
   onChange: PropTypes.func,
+  value: PropTypes.string,
   id: PropTypes.string,
 };
 

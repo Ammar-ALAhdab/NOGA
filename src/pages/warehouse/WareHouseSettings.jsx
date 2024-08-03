@@ -16,32 +16,39 @@ const DETAILS_BODY_REQUEST = {
   phone_brands: "brand_name",
   cpus: "CPU_brand",
   colors: "color",
+  accessories_categories: "category_name",
 };
 
 const LOADING = {
   brands: true,
   cpus: true,
   colors: true,
+  accessoriesCategories: true,
 };
 
 const ERRORS = {
   brands: null,
   cpus: null,
   colors: null,
+  accessoriesCategories: null,
 };
 
 function WareHouseSettings() {
   const [addedBrand, setAddedBrand] = useState("");
   const [addedCPU, setAddedCPU] = useState("");
   const [addedColor, setAddedColor] = useState("");
+  const [addedCategory, setAddedCategory] = useState("");
   const [loading, setLoading] = useState(LOADING);
   const [error, setError] = useState(ERRORS);
   const [brands, setBrands] = useState([]);
   const [CPUS, setCPUS] = useState([]);
   const [colors, setColors] = useState([]);
+  const [accessoriesCategories, setAccessoriesCategories] = useState([]);
   const [brandPaginationSettings, setBrandPaginationSettings] = useState(null);
   const [CPUsPaginationSettings, setCPUsPaginationSettings] = useState(null);
   const [colorsPaginationSettings, setColorsPaginationSettings] =
+    useState(null);
+  const [accessoriesPaginationSettings, setAccessoriesPaginationSettings] =
     useState(null);
   const handleClickBack = useGoToBack();
   const axiosPrivate = useAxiosPrivate();
@@ -50,17 +57,27 @@ function WareHouseSettings() {
   const handleChangePageBrands = (event, value) => {
     getSettings(`/phone_brands?page=${value}`, "phone_brands");
   };
+
   const handleChangePageCPUs = (event, value) => {
     getSettings(`/cpus?page=${value}`, "cpus");
   };
+
   const handleChangePageColors = (event, value) => {
     getSettings(`/colors?page=${value}`, "colors");
+  };
+
+  const handleChangePageAccessories = (event, value) => {
+    getSettings(
+      `/accessories_categories?page=${value}`,
+      "accessories_categories"
+    );
   };
 
   useEffect(() => {
     getSettings("/phone_brands", "phone_brands");
     getSettings("/cpus", "cpus");
     getSettings("/colors", "colors");
+    getSettings("/accessories_categories", "accessories_categories");
   }, []);
 
   const getSettings = async (link, storeData) => {
@@ -71,9 +88,12 @@ function WareHouseSettings() {
       } else if (storeData == "cpus") {
         setLoading((prev) => ({ ...prev, cpus: true }));
         setError((prev) => ({ ...prev, cpus: null }));
-      } else {
+      } else if (storeData == "colors") {
         setLoading((prev) => ({ ...prev, colors: true }));
         setError((prev) => ({ ...prev, colors: null }));
+      } else if (storeData == "accessories_categories") {
+        setLoading((prev) => ({ ...prev, accessoriesCategories: true }));
+        setError((prev) => ({ ...prev, accessoriesCategories: null }));
       }
       const response = await axiosPrivate.get(link);
       if (storeData == "phone_brands") {
@@ -90,9 +110,16 @@ function WareHouseSettings() {
           next: response.data.next,
           previous: response.data.previous,
         });
-      } else {
+      } else if (storeData == "colors") {
         setColors(response.data.results);
         setColorsPaginationSettings({
+          count: response.data.count,
+          next: response.data.next,
+          previous: response.data.previous,
+        });
+      } else if (storeData == "accessories_categories") {
+        setAccessoriesCategories(response.data.results);
+        setAccessoriesPaginationSettings({
           count: response.data.count,
           next: response.data.next,
           previous: response.data.previous,
@@ -104,16 +131,20 @@ function WareHouseSettings() {
         setError((prev) => ({ ...prev, brands: error }));
       } else if (storeData == "cpus") {
         setError((prev) => ({ ...prev, cpus: error }));
-      } else {
+      } else if (storeData == "colors") {
         setError((prev) => ({ ...prev, colors: error }));
+      } else if (storeData == "accessories_categories") {
+        setError((prev) => ({ ...prev, accessoriesCategories: error }));
       }
     } finally {
       if (storeData == "phone_brands") {
         setLoading((prev) => ({ ...prev, brands: false }));
       } else if (storeData == "cpus") {
         setLoading((prev) => ({ ...prev, cpus: false }));
-      } else {
+      } else if (storeData == "colors") {
         setLoading((prev) => ({ ...prev, colors: false }));
+      } else if (storeData == "accessories_categories") {
+        setLoading((prev) => ({ ...prev, accessoriesCategories: false }));
       }
     }
   };
@@ -163,8 +194,10 @@ function WareHouseSettings() {
         setAddedBrand("");
       } else if (link == "cpus") {
         setAddedCPU("");
-      } else {
+      } else if (link == "colors") {
         setAddedColor("");
+      } else if (link == "accessories_categories") {
+        setAddedCategory("");
       }
       Toast.fire({
         icon: "success",
@@ -245,6 +278,16 @@ function WareHouseSettings() {
     },
   ];
 
+  const accessoriesCategoriesColumns = [
+    { field: "id", headerName: "ID", width: 50 },
+    {
+      field: "category_name",
+      headerName: "التصنيف",
+      editable: true,
+      flex: 1,
+    },
+  ];
+
   return (
     <main className="flex flex-col items-center justify-center w-full h-full flex-grow gap-4 ">
       <Title text="الإعدادات:" />
@@ -284,7 +327,7 @@ function WareHouseSettings() {
           handleChangePage={handleChangePageBrands}
           rowsName={"الشركات المصنعة"}
         />
-        <SectionTitle text="تعديل قائمة أنواع المعالجات للهواتف المحمولة:" />
+        <SectionTitle text="تعديل قائمة الشركات المصنعة للمعالجات:" />
         <div className="flex items-center justify-end w-full gap-8">
           <ButtonComponent
             variant={"add"}
@@ -292,7 +335,7 @@ function WareHouseSettings() {
           />
           <div className="w-[500px]">
             <TextInputComponent
-              label={"إضافة معالج:"}
+              label={"إضافة شركة مصنعة للمعالج:"}
               onChange={setAddedCPU}
               value={addedCPU}
             />
@@ -353,6 +396,41 @@ function WareHouseSettings() {
           count={colorsPaginationSettings?.count}
           handleChangePage={handleChangePageColors}
           rowsName={"الألوان"}
+        />
+        <SectionTitle text="تعديل قائمة تصنيف الإكسسوارات:" />
+        <div className="flex items-center justify-end w-full gap-8">
+          <ButtonComponent
+            variant={"add"}
+            onClick={() => addFunction(addedCategory, "accessories_categories")}
+          />
+          <div className="w-[500px]">
+            <TextInputComponent
+              label={"إضافة تصنيف:"}
+              onChange={setAddedCategory}
+              value={addedCategory}
+            />
+          </div>
+        </div>
+        {loading.accessoriesCategories && accessoriesCategories.length ? (
+          <div className="flex justify-center items-center h-[400px]">
+            <LoadingSpinner w="64px" h="64px" />
+          </div>
+        ) : error.accessoriesCategories ? (
+          <NoDataError error={error.accessoriesCategories} />
+        ) : (
+          <DataTableEditRow
+            columns={accessoriesCategoriesColumns}
+            rows={accessoriesCategories}
+            updateFunction={updateFunction}
+            deleteFunction={deleteFunction}
+            link={"accessories_categories"}
+            dir="ltr"
+          />
+        )}
+        <TablePagination
+          count={accessoriesPaginationSettings?.count}
+          handleChangePage={handleChangePageAccessories}
+          rowsName={"التصنيفات"}
         />
 
         <div className="flex items-center justify-end w-full">

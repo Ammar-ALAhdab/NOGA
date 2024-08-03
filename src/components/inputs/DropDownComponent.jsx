@@ -12,9 +12,11 @@ function DropDownComponent({
   dataValue,
   dataTitle,
   label,
+  id,
   ButtonText,
   value = ButtonText,
   onSelect = () => {},
+  onSelectEvent = () => {},
   loading,
   error,
 }) {
@@ -32,6 +34,8 @@ function DropDownComponent({
   const handleMenuItemClick = (theDataSelected) => {
     setSelectedValue(theDataSelected);
     onSelect(theDataSelected);
+    const selectEventObj = { id, value: theDataSelected };
+    onSelectEvent(selectEventObj);
     handleClose();
   };
   const menuListRef = useRef(null);
@@ -77,9 +81,7 @@ function DropDownComponent({
   });
 
   return (
-    <div
-      className={`flex items-center justify-end w-full`}
-    >
+    <div className={`flex items-center justify-end w-full`}>
       <div
         dir="rtl"
         className={`flex items-center justify-between gap-8 w-[500px]`}
@@ -146,10 +148,12 @@ DropDownComponent.propTypes = {
   data: PropTypes.array,
   dataValue: PropTypes.string,
   dataTitle: PropTypes.string,
+  id: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.any,
   ButtonText: PropTypes.string,
   onSelect: PropTypes.func,
+  onSelectEvent: PropTypes.func,
   loading: PropTypes.bool,
   error: PropTypes.object,
 };

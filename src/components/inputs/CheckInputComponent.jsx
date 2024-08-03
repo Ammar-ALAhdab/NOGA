@@ -1,11 +1,18 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-function CheckInputComponent({ label, onChange, id }) {
-  const [isChecked, setIsChecked] = useState(false);
-  const handleChange = () => {
-    setIsChecked(!isChecked);
-    onChange(!isChecked);
+function CheckInputComponent({
+  label,
+  onChange = () => {},
+  onChangeEvent = () => {},
+  id,
+  value,
+}) {
+  const [isChecked, setIsChecked] = useState(value);
+  const handleChange = (event) => {
+    setIsChecked(event.target.checked);
+    onChange(event.target.checked);
+    onChangeEvent({ id, value: event.target.checked });
   };
   return (
     <div className="flex items-center justify-end w-full">
@@ -33,7 +40,9 @@ function CheckInputComponent({ label, onChange, id }) {
 
 CheckInputComponent.propTypes = {
   label: PropTypes.string,
+  value: PropTypes.bool,
   onChange: PropTypes.func,
+  onChangeEvent: PropTypes.func,
   id: PropTypes.string,
 };
 

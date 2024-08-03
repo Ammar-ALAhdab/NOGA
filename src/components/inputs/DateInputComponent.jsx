@@ -21,14 +21,17 @@ const newTheme = createTheme({
 
 function DateInputComponent({
   label,
+  id,
   value = dayjs("2010-01-01"),
   onChange = () => {},
+  onChangeEvent = () => {},
 }) {
   const [selectedDate, setSelectedDate] = useState(dayjs(value));
 
   const handleChange = (selectedDate) => {
     setSelectedDate(selectedDate);
     onChange(selectedDate.format("YYYY-MM-DD"));
+    onChangeEvent({ id, value: selectedDate.format("YYYY-MM-DD") });
   };
 
   return (
@@ -55,8 +58,10 @@ function DateInputComponent({
 
 DateInputComponent.propTypes = {
   label: PropTypes.string,
+  id: PropTypes.string,
   value: PropTypes.any,
   onChange: PropTypes.func,
+  onChangeEvent: PropTypes.func,
 };
 
 export default DateInputComponent;
