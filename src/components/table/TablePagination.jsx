@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import Pagination from "@mui/material/Pagination";
 
-function TablePagination({ count = 5, handleChangePage, rowsName }) {
+function TablePagination({ count = 5, page, handleChangePage, rowsName }) {
   return (
     <div className="w-[95%] flex items-center p-4">
       <div className="flex flex-1 justify-center items-center">
         <Pagination
           count={Math.ceil(count / 5)}
+          page={page}
           showFirstButton
           showLastButton
           onChange={handleChangePage}
@@ -23,9 +24,9 @@ function TablePagination({ count = 5, handleChangePage, rowsName }) {
 
 TablePagination.propTypes = {
   count: PropTypes.number,
+  page: PropTypes.number,
   handleChangePage: PropTypes.func,
   rowsName: PropTypes.string,
 };
-
 
 export default TablePagination;

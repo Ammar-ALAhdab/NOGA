@@ -7,7 +7,6 @@ import useGoToBack from "../../hooks/useGoToBack";
 import EmailInputComponent from "../../components/inputs/EmailInputComponent";
 import SectionTitle from "../../components/titles/SectionTitle";
 import { useEffect, useState } from "react";
-import PassInputComponent from "../../components/inputs/PassInputComponent";
 import useSelectedImg from "../../hooks/useSelectedImg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
@@ -22,14 +21,8 @@ const dropDownData = [
   { id: 2, title: "أنثى", sex: false },
 ];
 
-const admin = "a";
-
 function EmployeeDetails() {
   const handleClickBack = useGoToBack();
-  const [username, setUsername] = useState("");
-  const [pass, setPass] = useState("");
-  const [passConfirm, setPassConfirm] = useState("");
-  const [passNotMatch, setPassNotMatch] = useState(true);
   const [employeeInfo] = useLocationState("employee");
   const [branches, setBranches] = useState([]);
   const [branchName, setBranchName] = useState("" || undefined);
@@ -66,24 +59,6 @@ function EmployeeDetails() {
     job_type: (value) => value,
     branch: (value) => value,
   });
-
-  const handleUsername = (u) => {
-    setUsername(u);
-  };
-  const handlePass = (p) => {
-    setPass(p);
-  };
-  const handlePassConfirm = (pc) => {
-    setPassConfirm(pc);
-  };
-
-  useEffect(() => {
-    if (pass.toString() != passConfirm.toString()) {
-      setPassNotMatch(true);
-    } else {
-      setPassNotMatch(false);
-    }
-  }, [pass, passConfirm]);
 
   const getBranches = async (url) => {
     try {
@@ -208,8 +183,6 @@ function EmployeeDetails() {
         text={`الموظف: ${employeeInfo.first_name} ${employeeInfo.middle_name} ${employeeInfo.last_name}`}
       />
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
-        {admin ? (
-          <>
             <div className="w-full">
               <SectionTitle text={"المعلومات الشخصية:"} />
               <div className="grid grid-cols-2 gap-4 w-full">
@@ -355,40 +328,7 @@ function EmployeeDetails() {
                 onClick={() => updateEmployee(state.id)}
               />
             </div>
-          </>
-        ) : (
-          <>
-            {
-              <div className="flex flex-col items-center justify-center gap-8 w-full">
-                <form className="flex flex-col items-center justify-center gap-4">
-                  <TextInputComponent
-                    id="username"
-                    label={"اسم المستخدم:"}
-                    initValue={username}
-                    onChange={handleUsername}
-                  />
-                  <PassInputComponent
-                    id="pass"
-                    label={"كلمة المرور:"}
-                    initValue={pass}
-                    onChange={handlePass}
-                    flag={passNotMatch}
-                  />
-                  <PassInputComponent
-                    id="passConfirm"
-                    label={"تأكيد كلمة المرور:"}
-                    onChange={handlePassConfirm}
-                    flag={passNotMatch}
-                  />
-                </form>
-                <div className="flex items-center justify-end gap-4  w-full">
-                  <ButtonComponent variant={"back"} onClick={handleClickBack} />
-                  <ButtonComponent variant={"add"} type={"submit"} />
-                </div>
-              </div>
-            }
-          </>
-        )}
+
       </section>
     </main>
   );

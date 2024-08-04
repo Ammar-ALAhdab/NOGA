@@ -87,6 +87,11 @@ const reducer = (state, action) => {
 
 function AddProduct() {
   const handleClickBack = useGoToBack();
+  const Toast = useToast();
+  const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const [frontCameraComponentCount, setFrontCameraComponentCount] = useState(0);
+  const [backCameraComponentCount, setBackCameraComponentCount] = useState(0);
   //START: THIS STATES FOR ADDING BRAND MANUFACTURE, CPU OR COLOR
   const [addDetailsSettings, setDetailsSettings] =
     useState(initDetailsSittings);
@@ -96,11 +101,6 @@ function AddProduct() {
   const [colors, setColors] = useState([]);
   const [accessoriesCategories, setAccessoriesCategories] = useState([]);
   //END: THIS STATES FOR ADDING BRAND MANUFACTURE, CPU OR COLOR
-  const Toast = useToast();
-  const axiosPrivate = useAxiosPrivate();
-  const navigate = useNavigate();
-  const [frontCameraComponentCount, setFrontCameraComponentCount] = useState(0);
-  const [backCameraComponentCount, setBackCameraComponentCount] = useState(0);
 
   //START: THIS LOGIC FOR ADDING BRAND MANUFACTURE, CPU OR COLOR
 
@@ -255,7 +255,6 @@ function AddProduct() {
     dispatch({ type: `SET_PHONE_DETAIL`, payload: { [id]: value } });
   };
 
-
   const handleCamerasChange = (e, type, index) => {
     const newResolution = parseFloat(e.target.value);
     if (type === "front") {
@@ -271,7 +270,7 @@ function AddProduct() {
     }
   };
 
-  const generateCameraCompo = (label, id, type) => {
+  const generateCameraCompo = (type) => {
     if (type === "front") {
       setFrontCameraComponentCount(frontCameraComponentCount + 1);
     } else {
@@ -282,13 +281,25 @@ function AddProduct() {
   const handleDeleteCamera = (type) => {
     if (type == "front") {
       setFrontCameraComponentCount(frontCameraComponentCount - 1);
+      const updatedValue = arrayOfFrontCameras.map((camera, i) =>
+        i === frontCameraComponentCount
+          ? { ...camera, camera_resolution: "" }
+          : camera
+      );
+      setArrayOfFrontCameras(updatedValue);
     } else {
       setBackCameraComponentCount(backCameraComponentCount - 1);
+      const updatedValue = arrayOfBackCameras.map((camera, i) =>
+        i === backCameraComponentCount
+          ? { ...camera, camera_resolution: "" }
+          : camera
+      );
+      setArrayOfBackCameras(updatedValue);
     }
   };
 
   const addProduct = async (addedProduct) => {
-    let product ={}
+    let product = {};
     try {
       if (addedProduct.category_type == 1) {
         const frontCameras = arrayOfFrontCameras.filter(
@@ -312,7 +323,7 @@ function AddProduct() {
             accessory_category: accessoryCategory,
           },
         };
-        product = productAccessory
+        product = productAccessory;
       }
       await axiosPrivate.post("products", JSON.stringify(product));
       Toast.fire({
@@ -351,7 +362,6 @@ function AddProduct() {
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
       <Title text={"إضافة منتج:"} />
-      <ButtonComponent onClick={() => console.log(phoneState)} />
       <section className="flex items-center justify-center flex-col gap-4 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         {/* ################################### Start Add Box ################################### */}
 
@@ -571,13 +581,7 @@ function AddProduct() {
                   <div className="flex flex-row-reverse items-center justify-center gap-4">
                     <ButtonComponent
                       textButton="إضافة كاميرا خلفية"
-                      onClick={() =>
-                        generateCameraCompo(
-                          "دقة الكاميرا الخلفية",
-                          "phone_cameras",
-                          "back"
-                        )
-                      }
+                      onClick={() => generateCameraCompo("back")}
                       disabled={backCameraComponentCount == 4}
                       small={true}
                     />
@@ -637,13 +641,7 @@ function AddProduct() {
                   <div className="flex flex-row-reverse items-center justify-center gap-4">
                     <ButtonComponent
                       textButton="إضافة كاميرا أمامية"
-                      onClick={() =>
-                        generateCameraCompo(
-                          "دقة الكاميرا الأمامية",
-                          "phone_cameras",
-                          "front"
-                        )
-                      }
+                      onClick={() => generateCameraCompo("front")}
                       disabled={frontCameraComponentCount == 2}
                       small={true}
                     />

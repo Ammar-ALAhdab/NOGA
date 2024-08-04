@@ -21,10 +21,6 @@ function PersistLogin() {
     !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
   }, [auth?.accessToken, refresh]);
 
-  // useEffect(() => {
-  //   console.log(`loading: ${isLoading}`);
-  //   console.log(`aT: ${JSON.stringify(auth)}`);
-  // }, [auth, isLoading]);
   return <>{isLoading ? <LoadingPage /> : <Outlet />}</>;
 }
 

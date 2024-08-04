@@ -73,6 +73,8 @@ function Branches() {
   const [filterShow, setFilterShow] = useState(false);
   const [filterTerms, setFilterTerms] = useState("");
   const [scrollTop, setScrollTop] = useState(0);
+  const [page, setPage] = useState(1);
+
   const navigate = useNavigate();
   const navigateToBranchByID = useNavigate();
   const axiosPrivate = useAxiosPrivate();
@@ -88,7 +90,6 @@ function Branches() {
     let managerID = managers.find((obj) =>
       obj.managerName.includes(state.managerName)
     );
-    console.log(managers);
     let managerFilter =
       state.managerName && managerID != undefined
         ? `&manager=${managerID?.id}`
@@ -101,11 +102,14 @@ function Branches() {
       : "";
     let filter = managerFilter + cityFilter + orderingFilter;
     setFilterTerms(filter);
+    setPage(1);
+
     getBranches(`/branches?${filter}`);
     handleCloseFilter();
   };
 
   const handleChangePage = (event, value) => {
+    setPage(value);
     getBranches(
       `/branches?page=${value}${searchQuery ? `&search=${searchQuery}` : ""}${
         state.filter ? `${filterTerms}` : ""
@@ -113,7 +117,7 @@ function Branches() {
     );
   };
 
-  const handleClick = () => {
+  const handleAddClick = () => {
     navigate("AddBranch");
   };
 
@@ -123,6 +127,13 @@ function Branches() {
     setScrollTop(document.documentElement.scrollTop);
     document.documentElement.scrollTop = 0;
   };
+
+    const handleSearchClick = () => {
+      setPage(1);
+
+      getBranches(`/branches?search=${searchQuery}`);
+    };
+
 
   const handleCloseFilter = () => {
     setFilterShow(false);
@@ -193,9 +204,6 @@ function Branches() {
     }
   };
 
-  const handleSearchClick = () => {
-    getBranches(`/branches?search=${searchQuery}`);
-  };
 
   const columns = [
     { field: "id", headerName: "ID", width: 50 },
@@ -235,7 +243,7 @@ function Branches() {
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow">
       <Title text={"إدارة الأفرع:"} />
       <div className="w-full flex items-center flex-row-reverse gap-2 mb-4">
-        <ButtonComponent variant={"add"} onClick={handleClick} />
+        <ButtonComponent variant={"add"} onClick={handleAddClick} />
       </div>
       <section className="flex flex-col items-center justify-center w-full bg-white rounded-[30px] p-4 my-box-shadow gap-8">
         {/* ################################### START SEARCH AND FILTER ################################### */}
@@ -308,6 +316,7 @@ function Branches() {
                   variant={"filter"}
                   textButton="بحث حسب الفلتر"
                   onClick={handleFilterClick}
+                  page={page}
                 />
               </div>
             </div>

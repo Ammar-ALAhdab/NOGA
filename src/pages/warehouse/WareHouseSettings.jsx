@@ -34,6 +34,10 @@ const ERRORS = {
 };
 
 function WareHouseSettings() {
+  const [pageBrand, setPageBrand] = useState(1);
+  const [pageCPU, setPageCPU] = useState(1);
+  const [pageColor, setPageColor] = useState(1);
+  const [pageCategory, setPageCategory] = useState(1);
   const [addedBrand, setAddedBrand] = useState("");
   const [addedCPU, setAddedCPU] = useState("");
   const [addedColor, setAddedColor] = useState("");
@@ -55,21 +59,30 @@ function WareHouseSettings() {
   const Toast = useToast();
 
   const handleChangePageBrands = (event, value) => {
-    getSettings(`/phone_brands?page=${value}`, "phone_brands");
+    setPageBrand(value);
+
+    getSettings(`/phone_brands?page=${value}`, "phone_brands", value);
   };
 
   const handleChangePageCPUs = (event, value) => {
-    getSettings(`/cpus?page=${value}`, "cpus");
+    setPageCPU(value);
+
+    getSettings(`/cpus?page=${value}`, "cpus", value);
   };
 
   const handleChangePageColors = (event, value) => {
-    getSettings(`/colors?page=${value}`, "colors");
+    setPageColor(value);
+
+    getSettings(`/colors?page=${value}`, "colors", value);
   };
 
   const handleChangePageAccessories = (event, value) => {
+    setPageCategory(value);
+
     getSettings(
       `/accessories_categories?page=${value}`,
-      "accessories_categories"
+      "accessories_categories",
+      value
     );
   };
 
@@ -80,18 +93,22 @@ function WareHouseSettings() {
     getSettings("/accessories_categories", "accessories_categories");
   }, []);
 
-  const getSettings = async (link, storeData) => {
+  const getSettings = async (link, storeData, page = 1) => {
     try {
       if (storeData == "phone_brands") {
+        setPageBrand(page);
         setLoading((prev) => ({ ...prev, brands: true }));
         setError((prev) => ({ ...prev, brands: null }));
       } else if (storeData == "cpus") {
+        setPageCPU(page);
         setLoading((prev) => ({ ...prev, cpus: true }));
         setError((prev) => ({ ...prev, cpus: null }));
       } else if (storeData == "colors") {
+        setPageColor(page);
         setLoading((prev) => ({ ...prev, colors: true }));
         setError((prev) => ({ ...prev, colors: null }));
       } else if (storeData == "accessories_categories") {
+        setPageCategory(page);
         setLoading((prev) => ({ ...prev, accessoriesCategories: true }));
         setError((prev) => ({ ...prev, accessoriesCategories: null }));
       }
@@ -326,6 +343,7 @@ function WareHouseSettings() {
           count={brandPaginationSettings?.count}
           handleChangePage={handleChangePageBrands}
           rowsName={"الشركات المصنعة"}
+          page={pageBrand}
         />
         <SectionTitle text="تعديل قائمة الشركات المصنعة للمعالجات:" />
         <div className="flex items-center justify-end w-full gap-8">
@@ -361,6 +379,7 @@ function WareHouseSettings() {
           count={CPUsPaginationSettings?.count}
           handleChangePage={handleChangePageCPUs}
           rowsName={" أنواع المعالجات"}
+          page={pageCPU}
         />
         <SectionTitle text="تعديل قائمة الألوان للهواتف المحمولة:" />
         <div className="flex items-center justify-end w-full gap-8">
@@ -396,6 +415,7 @@ function WareHouseSettings() {
           count={colorsPaginationSettings?.count}
           handleChangePage={handleChangePageColors}
           rowsName={"الألوان"}
+          page={pageColor}
         />
         <SectionTitle text="تعديل قائمة تصنيف الإكسسوارات:" />
         <div className="flex items-center justify-end w-full gap-8">
@@ -431,6 +451,7 @@ function WareHouseSettings() {
           count={accessoriesPaginationSettings?.count}
           handleChangePage={handleChangePageAccessories}
           rowsName={"التصنيفات"}
+          page={pageCategory}
         />
 
         <div className="flex items-center justify-end w-full">

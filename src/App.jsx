@@ -35,6 +35,8 @@ import BranchManager from "./pages/manager/BranchManager.jsx";
 import BranchProducts from "./pages/manager/BranchProducts.jsx";
 import SalesOfficer from "./pages/sales/SalesOfficer.jsx";
 import WareHouseSettings from "./pages/warehouse/WareHouseSettings.jsx";
+import PhoneProductDetails from "./pages/warehouse/PhoneProductDetails.jsx";
+import AccessoryProductDetails from "./pages/warehouse/AccessoryProductDetails.jsx";
 
 export default function App() {
   return (
@@ -147,6 +149,8 @@ export default function App() {
               <Route index element={<Navigate to="products" />} />
               <Route path="products" element={<Products />} />
               <Route path="products/addProduct" element={<AddProduct />} />
+              <Route path="products/phone/:ProductId" element={<PhoneProductDetails />} />
+              <Route path="products/accessory/:ProductId" element={<AccessoryProductDetails />} />
               <Route path="sendProducts" element={<SendProducts />} />
               <Route path="returnProducts" element={<ReturnProducts />} />
               <Route path="productsLog" element={<ProductsLog />} />
