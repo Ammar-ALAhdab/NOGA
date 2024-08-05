@@ -196,7 +196,7 @@ function AccessoryProductDetails() {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosPrivate
-          .delete(`/employees/${ProductId}`)
+          .delete(`/products/${ProductId}`)
           .then(() => {
             Swal.fire({
               title: "تمت عملية الحذف بنجاح",

@@ -18,9 +18,15 @@ const cacheRtl = createCache({
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
-
-
-function DataTable({ columns, rows}) {
+function DataTable({
+  columns,
+  rows,
+  onRowSelectionModelChange = () => {},
+  rowSelectionModel,
+  hideFooter = true,
+  hideSelectRows = true,
+  pagination = false,
+}) {
   const existingTheme = useTheme();
   const theme = useMemo(
     () =>
@@ -66,6 +72,9 @@ function DataTable({ columns, rows}) {
           <DataGridPro
             rows={rows}
             columns={columns}
+            pagination={pagination}
+            pageSize={5} // Set the number of rows per page to 5
+            rowsPerPageOptions={[5]} // Optional: To hide rows per page selector
             sx={{
               width: "100%",
               minHeight: "200px",
@@ -83,23 +92,31 @@ function DataTable({ columns, rows}) {
               },
             }}
             initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
               columns: {
                 columnVisibilityModel: {
                   id: false,
                 },
               },
             }}
-            pageSizeOptions={[5, 10]}
+            pageSizeOptions={[5]}
             slotProps={{
               columnsManagement: {
                 disableShowHideToggle: true,
                 disableResetButton: true,
               },
             }}
-            hideFooter={true}
+            paginationMode={hideSelectRows ? "client" : "server"}
+            // For select rows
+            {...(hideSelectRows
+              ? null
+              : {
+                  checkboxSelection: true,
+                  disableRowSelectionOnClick: true,
+                  onRowSelectionModelChange: onRowSelectionModelChange,
+                  rowSelectionModel: rowSelectionModel,
+                  keepNonExistentRowsSelected: true,
+                })}
+            hideFooter={hideFooter}
           />
         </div>
       </ThemeProvider>
@@ -110,6 +127,11 @@ function DataTable({ columns, rows}) {
 DataTable.propTypes = {
   columns: PropTypes.array,
   rows: PropTypes.array,
+  pagination: PropTypes.bool,
+  hideFooter: PropTypes.bool,
+  hideSelectRows: PropTypes.bool,
+  rowSelectionModel: PropTypes.array,
+  onRowSelectionModelChange: PropTypes.func,
 };
 
 export default DataTable;

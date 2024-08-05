@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +13,6 @@ function NumberInputComponent({
   step = 1,
 }) {
   const [NumberValue, setNumberValue] = useState(value);
-
   const handleChange = (e) => {
     const newValue = e.target.value === "" ? "" : Number(e.target.value);
     if (newValue === "" || (newValue >= min && newValue <= max)) {
@@ -33,6 +32,10 @@ function NumberInputComponent({
     setNumberValue(updatedValue);
     onChange({ id, value: updatedValue });
   };
+
+  useEffect(() => {
+    setNumberValue(value);
+  }, [value]);
   return (
     <div className="flex items-center justify-end w-full">
       <div

@@ -213,3 +213,7 @@ li a.active .my-child-none {
   background-color: rgba(0, 0, 0, 0.5);
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
+
+.MuiDataGrid-rowCount {
+  display: none !important;
+}

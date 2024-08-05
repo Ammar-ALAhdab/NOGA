@@ -76,6 +76,7 @@ const formatting = (unFormattedData) => {
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [rowSelectionID, setRowSelectionID] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [errorProducts, setErrorProducts] = useState(null);
   const [paginationSettings, setPaginationSettings] = useState(null);
@@ -298,6 +299,17 @@ function Products() {
       <Title text={" قائمة منتجات المستودع المركزي:"} />
       <div className="w-full flex items-center flex-row-reverse gap-2 mb-4">
         <ButtonComponent variant={"add"} onClick={handleClickAdd} />
+        {rowSelectionID.length > 0 && (
+          <ButtonComponent
+            textButton="تعديل المنتجات المحددة"
+            variant={"edit"}
+            onClick={() => {
+              navigate("editProducts", {
+                state: { productsIDs: rowSelectionID },
+              })
+            }}
+          />
+        )}
       </div>
       <section className="flex flex-col items-center justify-center w-full bg-white rounded-[30px] p-4 my-box-shadow gap-8">
         {/* ################################### START SEARCH AND FILTER ################################### */}
@@ -436,7 +448,16 @@ function Products() {
         ) : errorProducts ? (
           <NoDataError error={errorProducts} />
         ) : (
-          <DataTable columns={columns} rows={products} />
+          <DataTable
+            columns={columns}
+            rows={products}
+            hideSelectRows={false}
+            onRowSelectionModelChange={(newRowSelectionModel) => {
+              setRowSelectionID(newRowSelectionModel);
+            }}
+            rowSelectionModel={rowSelectionID}
+            hideFooter={false}
+          />
         )}
         <TablePagination
           count={paginationSettings?.count}
