@@ -65,12 +65,21 @@ function Login() {
       const accessToken = response?.data?.access;
       const refreshToken = response?.data?.refresh;
       const role = response?.data?.role;
+      const branchID = response?.data?.branch;
+      const branchName = response?.data?.branch_name;
+      const image = response?.data?.image;
+      // Store user information in locale storage
+      if (role == "Sales Officer" || role == "Manager") {
+        localStorage.setItem("branchID", JSON.stringify(branchID));
+        localStorage.setItem("branchName", JSON.stringify(branchName));
+        localStorage.setItem("image", JSON.stringify(image));
+      }
       // delete the previous cookie
       cookies?.refreshToken ? removeCookie("refreshToken") : null;
       cookies?.role ? removeCookie("role") : null;
       handleSetCookie("refreshToken", refreshToken);
       handleSetCookie("role", role);
-      await setAuth({ username, password, accessToken });
+      await setAuth({ username, accessToken });
       setUsername("");
       setPassword("");
       const from = location.state?.from?.pathname || `/${LOGIN_PATH[role]}`;

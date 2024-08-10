@@ -13,6 +13,12 @@ function SideBar({ role }) {
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
   };
+  let branchName = "";
+  let profileImage = null;
+  if (role == "branchManager" || role == "salesOfficer") {
+    branchName = JSON.parse(localStorage.getItem("branchName"));
+    profileImage = JSON.parse(localStorage.getItem("image"));
+  }
   return (
     <div
       className={`${
@@ -47,7 +53,9 @@ function SideBar({ role }) {
             <div className="md:w-[50px] md:h-[50px] lg:w-[75px] lg:h-[75px] rounded-full bg-white"></div>
             <div className="w-full text-white text-center">
               <h1 className="md:text-[14px] lg:text-lg mb-2" dir="rtl">
-                {cookies.role == "admin" ? "System Admin" : navData[role].role}
+                {cookies.role == "admin"
+                  ? "System Admin"
+                  : `${navData[role].role} ${branchName}`}
               </h1>
               <p className="text-sm">
                 {cookies.role == "admin" ? "NOGA" : "some one"}
@@ -57,7 +65,7 @@ function SideBar({ role }) {
         )}
         <ul className={`${isExpanded ? "w-full" : "w-fit"}`}>
           {Object.entries(links).map(([label, values]) => (
-            <li key={label} className="last:mt-16">
+            <li key={label} className="last:mt-4">
               {label === "تسجيل الخروج" ? (
                 <button
                   onClick={logout}
@@ -77,7 +85,7 @@ function SideBar({ role }) {
                     <img
                       src={values[1]}
                       alt={values[0]}
-                      className="hidden my-child-block md:w-[18px] lg:w-6 md:h-4 lg:[18px]-6"
+                      className="hidden my-child-block md:w-[18px] lg:w-[22px] md:h-[18px] lg:h-[22px]"
                     />
                   </div>
                 </button>

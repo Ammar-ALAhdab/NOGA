@@ -1,10 +1,9 @@
-import  Title from "../../components/titles/Title";
+import Title from "../../components/titles/Title";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import LoadingSpinner from "../../components/actions/LoadingSpinner";
 import NoDataError from "../../components/actions/NoDataError";
 import ButtonComponent from "../../components/buttons/ButtonComponent";
 import DropDownComponent from "../../components/inputs/DropDownComponent";
-import NumberInputComponent from "../../components/inputs/NumberInputComponent";
 import TextAreaComponent from "../../components/inputs/TextAreaComponent";
 import TextInputComponent from "../../components/inputs/TextInputComponent";
 import SectionTitle from "../../components/titles/SectionTitle";
@@ -15,6 +14,7 @@ import Swal from "sweetalert2";
 import useToast from "../../hooks/useToast";
 import { useNavigate, useParams } from "react-router-dom";
 import useGoToBack from "../../hooks/useGoToBack";
+import TextShowBlue from "../../components/inputs/TextShowBlue";
 
 const dropDownData = [{ id: 2, type: "إكسسوار" }];
 
@@ -154,20 +154,15 @@ function AccessoryProductDetails() {
     dispatch({ type: "SET_CATEGORY_TYPE", payload: value });
   };
 
-  const handleProductQuantity = (event) => {
-    const { value } = event;
-    dispatch({ type: "SET_QUANTITY", payload: value });
-  };
-
   const handlePhoneDetailChange = (event) => {
     const { id, value } = event.target;
     dispatch({ type: "SET_PHONE_DETAIL", payload: { [id]: value } });
   };
 
-    const handlePhoneEventData = (event) => {
-      const { id, value } = event;
-      dispatch({ type: `SET_PHONE_DETAIL`, payload: { [id]: value } });
-    };
+  const handlePhoneEventData = (event) => {
+    const { id, value } = event;
+    dispatch({ type: `SET_PHONE_DETAIL`, payload: { [id]: value } });
+  };
 
   const getProductDetails = async (productId) => {
     try {
@@ -175,6 +170,8 @@ function AccessoryProductDetails() {
       setError(null);
       const response = await axiosPrivate.get(`/products/${productId}`);
       const productData = response?.data;
+      delete productData.phone;
+      console.log(productData);
       dispatch({ type: `SET_INITIAL_DETAILS`, payload: productData });
     } catch (error) {
       console.log(error);
@@ -236,6 +233,7 @@ function AccessoryProductDetails() {
               title: "تمت عملية التعديل بنجاح",
               icon: "success",
             });
+            console.log(accessoryState);
             navigate(-1, { replace: true });
           })
           .catch((error) => {
@@ -298,11 +296,9 @@ function AccessoryProductDetails() {
               <SectionTitle text={"معلومات المنتج العامة:"} />
               <div className="grid grid-cols-2 gap-4 w-full">
                 <div className="flex flex-col items-end justify-start gap-4">
-                  <NumberInputComponent
-                    label={"الكمية:"}
-                    id={"quantity"}
+                  <TextShowBlue
                     value={accessoryState?.quantity}
-                    onChange={handleProductQuantity}
+                    label={"الكمية:"}
                   />
                   <TextInputComponent
                     label={"سعر التكلفة:"}

@@ -25,6 +25,7 @@ function DateInputComponent({
   value = dayjs("2010-01-01"),
   onChange = () => {},
   onChangeEvent = () => {},
+  disabled = false 
 }) {
   const [selectedDate, setSelectedDate] = useState(dayjs(value));
 
@@ -48,6 +49,7 @@ function DateInputComponent({
               onChange={(newValue) => handleChange(newValue)}
               renderInput={(params) => <TextField {...params} />}
               format="YYYY-M-D"
+              disabled={disabled}
             />
           </LocalizationProvider>
         </ThemeProvider>
@@ -62,6 +64,7 @@ DateInputComponent.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   onChangeEvent: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default DateInputComponent;

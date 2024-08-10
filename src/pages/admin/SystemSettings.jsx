@@ -271,14 +271,6 @@ function SystemSettings() {
       <Title text="إعدادات النظام" />
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         <div className="flex flex-col items-center justify-center gap-8 w-full">
-          <div className="flex flex-col items-end justify-center gap-4 w-full">
-            <div className="flex items-center justify-end w-full gap-8">
-              <ButtonComponent variant={"edit"} onClick={() => {}} />
-              <div className="w-[500px]">
-                <TextInputComponent id="brandName" label={"اسم الشركة:"} />
-              </div>
-            </div>
-          </div>
           <SectionTitle text="تعديل قائمة المدن:" />
           <div className="flex items-center justify-end w-full gap-8">
             <ButtonComponent

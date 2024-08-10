@@ -8,6 +8,7 @@ import DropDownComponent from "../../components/inputs/DropDownComponent";
 import TextInputComponent from "../../components/inputs/TextInputComponent";
 import useGoToBack from "../../hooks/useGoToBack";
 import NumberInputComponent from "../../components/inputs/NumberInputComponent";
+import TextShowBlue from "../../components/inputs/TextShowBlue";
 import SectionTitle from "../../components/titles/SectionTitle";
 import DateInputComponent from "../../components/inputs/DateInputComponent";
 import CheckInputComponent from "../../components/inputs/CheckInputComponent";
@@ -200,11 +201,6 @@ function PhoneProductDetails() {
     dispatch({ type: "SET_CATEGORY_TYPE", payload: value });
   };
 
-  const handleProductQuantity = (event) => {
-    const { value } = event;
-    dispatch({ type: "SET_QUANTITY", payload: value });
-  };
-
   const handlePhoneDetailChange = (event) => {
     const { id, value } = event.target;
     dispatch({ type: "SET_PHONE_DETAIL", payload: { [id]: value } });
@@ -292,6 +288,7 @@ function PhoneProductDetails() {
       setError(null);
       const response = await axiosPrivate.get(`/products/${productId}`);
       const productData = response?.data;
+      delete productData.accessory
       handleInitializeData(productData);
     } catch (error) {
       console.log(error);
@@ -415,12 +412,7 @@ function PhoneProductDetails() {
               <SectionTitle text={"معلومات المنتج العامة:"} />
               <div className="grid grid-cols-2 gap-4 w-full">
                 <div className="flex flex-col items-end justify-start gap-4">
-                  <NumberInputComponent
-                    label={"الكمية:"}
-                    id={"quantity"}
-                    value={phoneState?.quantity}
-                    onChange={handleProductQuantity}
-                  />
+                  <TextShowBlue value={phoneState?.quantity} label={"الكمية:"}/>
                   <TextInputComponent
                     label={"سعر التكلفة:"}
                     id={"wholesale_price"}

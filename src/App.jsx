@@ -38,6 +38,15 @@ import WareHouseSettings from "./pages/warehouse/WareHouseSettings.jsx";
 import PhoneProductDetails from "./pages/warehouse/PhoneProductDetails.jsx";
 import AccessoryProductDetails from "./pages/warehouse/AccessoryProductDetails.jsx";
 import EditProducts from "./pages/warehouse/EditProducts.jsx";
+import RequestsLog from "./pages/warehouse/RequestsLog.jsx";
+import OrderProducts from "./pages/manager/OrderProducts.jsx";
+import ManageRequests from "./pages/warehouse/ManageRequests.jsx";
+import Request from "./pages/warehouse/Request.jsx";
+import AccessoryDetails from "./pages/manager/AccessoryDetails.jsx";
+import PhoneDetails from "./pages/manager/PhoneDetails.jsx";
+import Customers from "./pages/sales/Customers.jsx";
+import AddCustomer from "./pages/sales/AddCustomer.jsx";
+import CustomerDetails from "./pages/sales/CustomerDetails.jsx";
 
 export default function App() {
   return (
@@ -148,6 +157,7 @@ export default function App() {
             <Route path="/warehouseAdmin" element={<WarehouseAdmin />}>
               {/* Redirect to Products by default */}
               <Route index element={<Navigate to="products" />} />
+              {/* <Route path="products" element={<ProductsCopy />} /> */}
               <Route path="products" element={<Products />} />
               <Route path="products/addProduct" element={<AddProduct />} />
               <Route path="products/editProducts" element={<EditProducts />} />
@@ -162,6 +172,9 @@ export default function App() {
               <Route path="sendProducts" element={<SendProducts />} />
               <Route path="returnProducts" element={<ReturnProducts />} />
               <Route path="productsLog" element={<ProductsLog />} />
+              <Route path="manageRequests" element={<ManageRequests />} />
+              <Route path="manageRequests/:RequestId" element={<Request />} />
+              <Route path="requestsLog" element={<RequestsLog />} />
               <Route path="settings" element={<WareHouseSettings />} />
             </Route>
           </Route>
@@ -173,7 +186,19 @@ export default function App() {
               {/* Redirect to statistics by default */}
               <Route index element={<Navigate to="statistics" />} />
               <Route path="statistics" element={<Statistics />} />
-              <Route path="products" element={<BranchProducts />} />
+              <Route
+                path="products"
+                element={<BranchProducts manager={true} />}
+              />
+              <Route
+                path="products/phone/:ProductId"
+                element={<PhoneDetails />}
+              />
+              <Route
+                path="products/accessory/:ProductId"
+                element={<AccessoryDetails />}
+              />
+              <Route path="orderProducts" element={<OrderProducts />} />
             </Route>
           </Route>
           {/* ----- End Branch Manger Routes ----- */}
@@ -184,6 +209,20 @@ export default function App() {
               {/* Redirect to products by default */}
               <Route index element={<Navigate to="products" />} />
               <Route path="products" element={<BranchProducts />} />
+              <Route
+                path="products/phone/:ProductId"
+                element={<PhoneDetails />}
+              />
+              <Route
+                path="products/accessory/:ProductId"
+                element={<AccessoryDetails />}
+              />
+              <Route path="customers" element={<Customers />} />
+              <Route
+                path="customers/:CustomerID"
+                element={<CustomerDetails />}
+              />
+              <Route path="customers/addCustomer" element={<AddCustomer />} />
             </Route>
           </Route>
           {/* ----- End Sales Officer Routes ----- */}

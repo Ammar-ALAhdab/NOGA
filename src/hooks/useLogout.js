@@ -12,6 +12,9 @@ const useLogout = () => {
     navigate("/", { replace: true });
     removeCookie("refreshToken");
     removeCookie("role");
+    // For Delete User Info
+    localStorage.clear();
+    // No End Point For This In The Back End!
     // try {
     //   const response = await axios("/logout", {
     //     withCredentials: true,

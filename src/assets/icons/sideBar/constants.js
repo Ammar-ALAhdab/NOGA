@@ -49,7 +49,7 @@ const navData = {
     },
   },
   salesOfficer: {
-    role: "موظف المبيعات:",
+    role: "موظف المبيعات فرع:",
     links: {
       المنتجات: [salesProducts, salesProductsHover, "products"],
       الزبائن: [salesCustomers, salesCustomersHover, "customers"],
@@ -89,15 +89,21 @@ const navData = {
         warehouseAdminReturnProductsHover,
         "returnProducts",
       ],
-      "سجل المنتجات": [
+      "سجل حركة المنتجات": [
         warehouseAdminProductsLog,
         warehouseAdminProductsLogHover,
         "productsLog",
       ],
+
       "إدارة الطلبات": [
         warehouseAdminManageRequests,
         warehouseAdminManageRequestsHover,
         "manageRequests",
+      ],
+      "سجل الطلبات": [
+        warehouseAdminProductsLog,
+        warehouseAdminProductsLogHover,
+        "requestsLog",
       ],
       الإعدادات: [adminSettings, adminSettingsHover, "settings"],
 
@@ -112,7 +118,7 @@ const navData = {
       "طلب المنتجات": [
         warehouseAdSendProducts,
         warehouseAdSendProductsHover,
-        "productsRequest",
+        "orderProducts",
       ],
       "سجل الطلبات": [
         branchManagerProductsRequestLog,

@@ -221,6 +221,7 @@ function EditProducts() {
   useEffect(() => {
     getProducts();
   }, []);
+  
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow">
       <Title text={" تعديل المنتجات :"} />

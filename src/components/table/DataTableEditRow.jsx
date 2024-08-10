@@ -34,6 +34,7 @@ function DataTableEditRow({
   deleteFunction,
   link,
   dir,
+  pagination = false,
 }) {
   const [visualRows, setVisualRows] = useState(rows);
   const [rowModesModel, setRowModesModel] = useState({});
@@ -189,6 +190,8 @@ function DataTableEditRow({
           <DataGridPro
             rows={visualRows}
             columns={visualColumns}
+            pagination={pagination}
+            hideFooter={!pagination}
             sx={{
               width: "100%",
               minHeight: "200px",
@@ -206,23 +209,20 @@ function DataTableEditRow({
               },
             }}
             initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
+              pagination: { paginationModel: { pageSize: 5 } },
               columns: {
                 columnVisibilityModel: {
                   id: false,
                 },
               },
             }}
-            pageSizeOptions={[5, 10]}
+            pageSizeOptions={[5, 10, 25]}
             slotProps={{
               columnsManagement: {
                 disableShowHideToggle: true,
                 disableResetButton: true,
               },
             }}
-            hideFooter={true}
             editMode="row"
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
@@ -240,6 +240,7 @@ DataTableEditRow.propTypes = {
   rows: PropTypes.array,
   updateFunction: PropTypes.func,
   deleteFunction: PropTypes.func,
+  pagination: PropTypes.bool,
   link: PropTypes.string,
   dir: PropTypes.string,
 };

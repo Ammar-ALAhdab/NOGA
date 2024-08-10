@@ -8,6 +8,8 @@ import back from "../../assets/icons/Buttons/back.svg";
 import edit from "../../assets/icons/Buttons/edit.svg";
 import procedure from "../../assets/icons/Buttons/correct.svg";
 import show from "../../assets/icons/Buttons/show.svg";
+import reject from "../../assets/icons/Buttons/reject.svg";
+import send from "../../assets/icons/sideBar/warehouseAdmin/warehouse_admin_send_products.svg";
 
 const buttonVariants = {
   add: {
@@ -54,6 +56,26 @@ const buttonVariants = {
     text: "عرض التفاصيل",
     icon: show,
     backgroundColor: "#7049A3",
+  },
+  send: {
+    text: "إرسال",
+    icon: send,
+    backgroundColor: "#D9A322",
+  },
+  accept: {
+    text: "قبول",
+    icon: procedure,
+    backgroundColor: "#7049A3",
+  },
+  reject: {
+    text: "رفض",
+    icon: reject,
+    backgroundColor: "#E76D3B",
+  },
+  purchases: {
+    text: "عرض المشتريات",
+    icon: reject,
+    backgroundColor: "#2DBDA8",
   },
 };
 

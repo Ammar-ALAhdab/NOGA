@@ -401,6 +401,7 @@ function AddProduct() {
                 id={"quantity"}
                 value={phoneState.quantity}
                 onChange={handleProductQuantity}
+                min={1}
               />
               <TextInputComponent
                 label={"سعر التكلفة:"}
