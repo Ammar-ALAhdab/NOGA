@@ -5,7 +5,7 @@ import ButtonComponent from "../../components/buttons/ButtonComponent";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-function BranchProducts({manager = false}) {
+function BranchProducts({ manager = false }) {
   const [rowSelectionID, setRowSelectionID] = useState([]);
   const navigate = useNavigate();
   const branchID = JSON.parse(localStorage.getItem("branchID"));
@@ -60,7 +60,7 @@ function BranchProducts({manager = false}) {
     },
     {
       field: "sellingPrice",
-      headerName: "سعر المبيع",
+      headerName: "السعر",
       width: 150,
     },
     {
@@ -89,6 +89,19 @@ function BranchProducts({manager = false}) {
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow">
       <Title text={`قائمة منتجات فرع ${branchName}:`} />
+      <div className="w-full flex items-center flex-row-reverse gap-2 mb-4">
+        {rowSelectionID.length > 0 && (
+          <ButtonComponent
+            textButton="إجراء عملية بيع"
+            variant={"procedure"}
+            onClick={() => {
+              navigate("/salesOfficer/makeSale", {
+                state: { productsIDs: rowSelectionID },
+              });
+            }}
+          />
+        )}
+      </div>
       <section className="flex flex-col items-center justify-center w-full bg-white rounded-[30px] p-4 my-box-shadow gap-8">
         <ProductsSalesTable
           columns={columns}

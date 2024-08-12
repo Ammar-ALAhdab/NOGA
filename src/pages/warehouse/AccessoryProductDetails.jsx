@@ -255,6 +255,19 @@ function AccessoryProductDetails() {
     getProductDetails(ProductId);
   }, []);
 
+  const handlePrintImage = () => {
+    const imageWindow = window.open("", "_blank");
+    imageWindow.document.write(
+      `<img
+        src=${accessoryState.qr_codes_download}
+        style="max-width: 100%; height: auto;"
+      />`
+    );
+    setTimeout(() => {
+      imageWindow.print();
+    }, 1000);
+  };
+
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
       <Title text={`معلومات المنتج ${accessoryState?.product_name}:`} />
@@ -336,8 +349,24 @@ function AccessoryProductDetails() {
             </div>
             <div className="w-full">
               <SectionTitle text={"معلومات المنتج التفصيلية:"} />
+              {/* Barcode */}
               <div className="grid grid-cols-2 gap-4 w-full">
-                <div className="flex flex-col items-center justify-start gap-4">
+                <div className="flex items-center justify-end w-full gap-4">
+                  <ButtonComponent
+                    variant={"show"}
+                    textButton={"طباعة ملصقات الباركود"}
+                    onClick={handlePrintImage}
+                  />
+                </div>
+                <div className="flex items-center justify-end w-full gap-4">
+                  <div className="flex items-center justify-end w-full gap-4">
+                    <img src={accessoryState.qr_code} alt="الباركود" />
+                    <p className="ar-txt">الباركود:</p>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 w-full">
+                <div className="flex flex-col items-center justify-end gap-4">
                   <ButtonComponent
                     textButton={"إضافة تصنيف جديد للإكسسوار"}
                     onClick={() =>

@@ -16,6 +16,8 @@ import dayjs from "dayjs";
 import useToast from "../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { axiosPrivateEmployee } from "../../api/axios";
+import useAuth from "../../auth/useAuth";
 
 const dropDownGenderData = [
   { id: 1, title: "ذكر", sex: true },
@@ -48,7 +50,7 @@ const employeesAccount = [
 
 const THE_JOB = "";
 
-function AddEmployee({userType}) {
+function AddEmployee({ userType }) {
   const [branches, setBranches] = useState([]);
   const [jobsTypes, setJobsTypes] = useState([]);
   const [goToAccountPage, setGoToAccountPage] = useState(false);
@@ -56,6 +58,7 @@ function AddEmployee({userType}) {
   const Toast = useToast();
   const handleClickBack = useGoToBack();
   const navigate = useNavigate();
+  const { auth } = useAuth();
 
   const {
     state,
@@ -95,6 +98,7 @@ function AddEmployee({userType}) {
   };
 
   const {
+    selectedFile,
     selectedImage,
     delimgButtonFlag,
     handleImageChange,
@@ -134,7 +138,20 @@ function AddEmployee({userType}) {
 
   const addEmployee = async () => {
     try {
-      await axiosPrivate.post("employees", JSON.stringify(state));
+      const formData = new FormData();
+      for (const key in state) {
+        if (state[key] !== null) {
+          formData.append(key, state[key]);
+        }
+      }
+      formData.append("image", selectedFile);
+      console.log(selectedFile);
+      await axiosPrivateEmployee.post("employees", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization :`Bearer ${auth?.accessToken}`
+        },
+      });
       Toast.fire({
         icon: "success",
         title: "تمت عملية الإضافة بنجاح",
@@ -184,10 +201,11 @@ function AddEmployee({userType}) {
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
       <Title text={"إضافة موظف:"} />
+      {/* <input type="file" onChange={handleFileChange} /> */}
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         <div className="w-full">
           <SectionTitle text={"المعلومات الشخصية:"} />
-          <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
             <div className="flex flex-col items-end justify-start gap-4">
               <div className="flex flex-col w-full items-center justify-center gap-4">
                 <div className="w-fit relative z-10">
@@ -287,7 +305,7 @@ function AddEmployee({userType}) {
         </div>
         <div className="w-full">
           <SectionTitle text={"معلومات العمل:"} />
-          <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
             <div className="flex flex-col items-center justify-start gap-4">
               <DropDownComponent
                 data={jobsTypes}

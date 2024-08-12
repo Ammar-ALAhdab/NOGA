@@ -185,7 +185,7 @@ function EmployeeDetails() {
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
             <div className="w-full">
               <SectionTitle text={"المعلومات الشخصية:"} />
-              <div className="grid grid-cols-2 gap-4 w-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                 <div className="flex flex-col items-end justify-start gap-4">
                   <div className="flex flex-col w-full items-center justify-center gap-4">
                     <div className="w-fit relative z-10">
@@ -284,7 +284,7 @@ function EmployeeDetails() {
             </div>
             <div className="w-full">
               <SectionTitle text={"معلومات العمل:"} />
-              <div className="grid grid-cols-2 gap-4 w-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                 <div className="flex flex-col items-center justify-start gap-4">
                   <DropDownComponent
                     data={jobsTypes}

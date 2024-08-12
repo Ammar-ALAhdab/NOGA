@@ -6,6 +6,8 @@ const useSelectedImg = (profilePhoto) => {
   const initialProfilePhoto = profilePhoto ? profilePhoto : noProfilePhoto;
   const [selectedImage, setSelectedImage] = useState(initialProfilePhoto);
   const [delimgButtonFlag, setDelImgButtonFlag] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   useEffect(() => {
     setSelectedImage(initialProfilePhoto);
     if (initialProfilePhoto == profilePhoto) {
@@ -17,6 +19,7 @@ const useSelectedImg = (profilePhoto) => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    setSelectedFile(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -48,6 +51,7 @@ const useSelectedImg = (profilePhoto) => {
   };
 
   return {
+    selectedFile,
     selectedImage,
     delimgButtonFlag,
     handleImageChange,

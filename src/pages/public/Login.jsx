@@ -66,14 +66,16 @@ function Login() {
       const refreshToken = response?.data?.refresh;
       const role = response?.data?.role;
       const branchID = response?.data?.branch;
+      const name = response?.data?.name;
       const branchName = response?.data?.branch_name;
       const image = response?.data?.image;
       // Store user information in locale storage
       if (role == "Sales Officer" || role == "Manager") {
         localStorage.setItem("branchID", JSON.stringify(branchID));
         localStorage.setItem("branchName", JSON.stringify(branchName));
-        localStorage.setItem("image", JSON.stringify(image));
       }
+      localStorage.setItem("name", JSON.stringify(name ? name : null));
+      localStorage.setItem("image", JSON.stringify(image ? image : null));
       // delete the previous cookie
       cookies?.refreshToken ? removeCookie("refreshToken") : null;
       cookies?.role ? removeCookie("role") : null;

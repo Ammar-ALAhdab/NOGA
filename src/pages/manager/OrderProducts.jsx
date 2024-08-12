@@ -37,6 +37,7 @@ function OrderProducts() {
   const [rowSelectionID, setRowSelectionID] = useState([]);
   const [description, setDescription] = useState("");
   const axiosPrivate = useAxiosPrivate();
+  const branchID = JSON.parse(localStorage.getItem("branchID"));
 
   const handleChangeDescription = (e) => {
     setDescription(e.target.value);
@@ -86,7 +87,7 @@ function OrderProducts() {
 
   const handleOrderProducts = () => {
     const OrderedProducts = {
-      branch_id: 3,
+      branch_id: branchID,
       note: description,
       requests: [
         ...selectedProducts.map((p) => {

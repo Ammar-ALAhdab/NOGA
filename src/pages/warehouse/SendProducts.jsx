@@ -212,61 +212,59 @@ function SendProducts() {
     },
   ];
 
+  const columns = [
+    { field: "id", headerName: "ID", width: 50 },
+    {
+      field: "profilePhoto",
+      headerName: "",
+      width: 60,
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <div className="flex justify-center items-center h-full">
+            <img
+              src={params.row.profilePhoto}
+              alt="profile"
+              width={60}
+              height={60}
+              className="rounded-[50%] border-2 border-primary"
+            />
+          </div>
+        );
+      },
+    },
+    {
+      field: "barcode",
+      headerName: "معرف المنتج",
+      flex: 1,
+    },
+    {
+      field: "productName",
+      headerName: "اسم المنتج",
+      width: 150,
+    },
+    {
+      field: "type",
+      headerName: "النوع",
+      flex: 1,
+    },
+    {
+      field: "wholesalePrice",
+      headerName: "سعر التكلفة",
+      width: 150,
+    },
+    {
+      field: "sellingPrice",
+      headerName: "سعر المبيع",
+      width: 150,
+    },
 
-    const columns = [
-      { field: "id", headerName: "ID", width: 50 },
-      {
-        field: "profilePhoto",
-        headerName: "",
-        width: 60,
-        sortable: false,
-        renderCell: (params) => {
-          return (
-            <div className="flex justify-center items-center h-full">
-              <img
-                src={params.row.profilePhoto}
-                alt="profile"
-                width={60}
-                height={60}
-                className="rounded-[50%] border-2 border-primary"
-              />
-            </div>
-          );
-        },
-      },
-      {
-        field: "barcode",
-        headerName: "معرف المنتج",
-        flex: 1,
-      },
-      {
-        field: "productName",
-        headerName: "اسم المنتج",
-        width: 150,
-      },
-      {
-        field: "type",
-        headerName: "النوع",
-        flex: 1,
-      },
-      {
-        field: "wholesalePrice",
-        headerName: "سعر التكلفة",
-        width: 150,
-      },
-      {
-        field: "sellingPrice",
-        headerName: "سعر المبيع",
-        width: 150,
-      },
-
-      {
-        field: "quantity",
-        headerName: "الكمية المتوفرة",
-        flex: 1,
-      },
-    ];
-
+    {
+      field: "quantity",
+      headerName: "الكمية المتوفرة",
+      flex: 1,
+    },
+  ];
 
   useEffect(() => {
     getBranches();
@@ -334,7 +332,7 @@ function SendProducts() {
           <ButtonComponent
             variant={"procedure"}
             onClick={handleSendProducts}
-            disabled={selectedProducts.length <= 0}
+            disabled={selectedProducts.length == 0}
           />
         </div>
       </section>

@@ -135,7 +135,7 @@ function HrSettings() {
       <Title text="الإعدادات:" />
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         <SectionTitle text="تعديل قائمة المسميات الوظيفية:" />
-        <div className="flex items-center justify-end w-full gap-8">
+        <div className="flex items-center justify-end w-full gap-4 lg:gap-8">
           <ButtonComponent
             variant={"add"}
             onClick={() => addJob(addedJobType)}

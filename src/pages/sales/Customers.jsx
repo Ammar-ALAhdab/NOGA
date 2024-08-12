@@ -78,7 +78,6 @@ function Customers() {
     let filter = orderingFilter;
     setFilterTerms(filter);
     setPage(1);
-
     getCustomers(`/customers?${filter}`);
     handleCloseFilter();
   };
@@ -93,7 +92,7 @@ function Customers() {
   };
 
   const handleAddClick = () => {
-    navigate("addCustomer");
+    navigate("/salesOfficer/addCustomer");
   };
 
   const handleShowFilter = () => {
@@ -106,6 +105,7 @@ function Customers() {
   const handleSearchClick = () => {
     setPage(1);
     getCustomers(`/customers?search=${searchQuery}`);
+    console.log(searchQuery);
   };
 
   const handleCloseFilter = () => {
@@ -166,7 +166,7 @@ function Customers() {
     {
       field: "options",
       headerName: "خيارات",
-      flex: 1,
+      width: 300,
       sortable: false,
       renderCell: (params) => {
         return (
@@ -269,7 +269,7 @@ function Customers() {
         <TablePagination
           count={paginationSettings?.count}
           handleChangePage={handleChangePage}
-          rowsName={"الزيائن"}
+          rowsName={"الزبائن"}
         />
       </section>
     </main>

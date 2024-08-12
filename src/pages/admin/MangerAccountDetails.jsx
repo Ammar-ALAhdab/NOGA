@@ -11,7 +11,7 @@ import useSelectedImg from "../../hooks/useSelectedImg";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 function MangerAccountDetails() {
-  const branch = useLocationState();
+  const branchInfo = useLocationState("branch");
   const [accountData, setAccountData] = useState(null);
   const [pass, setPass] = useState("");
   const [passConfirm, setPassConfirm] = useState("");
@@ -65,7 +65,7 @@ function MangerAccountDetails() {
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
       <Title
-        text={`حساب مدير الفرع: ${branch?.manager} - شركة نوجا تيك فرع ${branch?.city_name} ${branch?.number}`}
+        text={`حساب مدير الفرع: ${branchInfo?.manager_name} - شركة نوجا تيك فرع ${branchInfo?.city_name} ${branchInfo?.number}`}
       />
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         {loading ? (

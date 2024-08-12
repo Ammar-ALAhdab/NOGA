@@ -22,12 +22,12 @@ const boxes = [
 ];
 
 function BranchAccounts() {
-  const branch = useLocationState();
+  const branchInfo = useLocationState("branch");
   const handleClickBack = useGoToBack();
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
       <Title
-        text={`إدارة الحسابات - شركة نوجا تيك فرع: ${branch?.city_name} ${branch?.number}`}
+        text={`إدارة الحسابات - شركة نوجا تيك فرع: ${branchInfo?.city_name} ${branchInfo?.number}`}
       />
       <section className="flex flex-row-reverse flex-wrap items-center justify-center gap-16 w-full py-8 px-4">
         {boxes.map((box) => {
@@ -38,7 +38,7 @@ function BranchAccounts() {
               color={box.color}
               text={box.text}
               link={box.link}
-              data={branch}
+              data={branchInfo}
             />
           );
         })}

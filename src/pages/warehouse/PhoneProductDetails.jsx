@@ -288,7 +288,7 @@ function PhoneProductDetails() {
       setError(null);
       const response = await axiosPrivate.get(`/products/${productId}`);
       const productData = response?.data;
-      delete productData.accessory
+      delete productData.accessory;
       handleInitializeData(productData);
     } catch (error) {
       console.log(error);
@@ -371,6 +371,19 @@ function PhoneProductDetails() {
     getProductDetails(ProductId);
   }, []);
 
+    const handlePrintImage = () => {
+      const imageWindow = window.open("", "_blank");
+      imageWindow.document.write(
+        `<img
+        src=${phoneState.qr_codes_download}
+        style="max-width: 100%; height: auto;"
+      />`
+      );
+      setTimeout(() => {
+        imageWindow.print();
+      }, 1000);
+    };
+
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
       <Title text={`معلومات المنتج ${phoneState?.product_name}:`} />
@@ -412,7 +425,10 @@ function PhoneProductDetails() {
               <SectionTitle text={"معلومات المنتج العامة:"} />
               <div className="grid grid-cols-2 gap-4 w-full">
                 <div className="flex flex-col items-end justify-start gap-4">
-                  <TextShowBlue value={phoneState?.quantity} label={"الكمية:"}/>
+                  <TextShowBlue
+                    value={phoneState?.quantity}
+                    label={"الكمية:"}
+                  />
                   <TextInputComponent
                     label={"سعر التكلفة:"}
                     id={"wholesale_price"}
@@ -451,6 +467,22 @@ function PhoneProductDetails() {
               <>
                 <div className="w-full">
                   <SectionTitle text={"معلومات المنتج التفصيلية:"} />
+                  {/* Barcode */}
+                  <div className="grid grid-cols-2 gap-4 w-full">
+                    <div className="flex items-center justify-end w-full gap-4">
+                      <ButtonComponent
+                        variant={"show"}
+                        textButton={"طباعة ملصقات الباركود"}
+                        onClick={handlePrintImage}
+                      />
+                    </div>
+                    <div className="flex items-center justify-end w-full gap-4">
+                      <div className="flex items-center justify-end w-full gap-4">
+                        <img src={phoneState.qr_code} alt="الباركود" />
+                        <p className="ar-txt">الباركود:</p>
+                      </div>
+                    </div>
+                  </div>
                   <div className="grid grid-cols-2 gap-4 w-full">
                     <div className="flex flex-col items-center justify-start gap-4">
                       <ButtonComponent

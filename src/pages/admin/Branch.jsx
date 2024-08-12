@@ -31,6 +31,7 @@ const boxes = [
 function Branch() {
   const branchInfo = useLocationState("branch");
   const handleClickBack = useGoToBack();
+  console.log(branchInfo)
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4 ">
       <Title

@@ -147,7 +147,7 @@ function CustomerDetails() {
 
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
-      <Title text={"إضافة زبون:"} />
+      <Title text={"معلومات الزبون:"} />
       <section className="flex items-center justify-center flex-col gap-4 w-full bg-white rounded-[30px] pb-8 px-4 my-box-shadow">
         {loading ? (
           <LoadingSpinner />
@@ -156,7 +156,7 @@ function CustomerDetails() {
         ) : (
           <>
             <SectionTitle text={"المعلومات الشخصية:"} />
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid lg:grid-cols-2 gap-4 w-full">
               <div className="flex flex-col items-end justify-start gap-4">
                 <TextInputComponent
                   id={"national_number"}

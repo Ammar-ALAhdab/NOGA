@@ -31,7 +31,19 @@ function PhoneDetails() {
   const [frontCameraComponentCount, setFrontCameraComponentCount] = useState(0);
   const [backCameraComponentCount, setBackCameraComponentCount] = useState(0);
   const [phoneState, dispatch] = useReducer(reducer, {});
-const branchID = JSON.parse(localStorage.getItem("branchID"));
+  const branchID = JSON.parse(localStorage.getItem("branchID"));
+  const handlePrintImage = () => {
+    const imageWindow = window.open("", "_blank");
+    imageWindow.document.write(
+      `<img
+        src=${phoneState.qr_codes_download}
+        style="max-width: 100%; height: auto;"
+      />`
+    );
+    setTimeout(() => {
+      imageWindow.print();
+    }, 1000);
+  };
 
   const [arrayOfFrontCameras, setArrayOfFrontCameras] = useState([
     { camera_resolution: "", main: false },
@@ -140,6 +152,22 @@ const branchID = JSON.parse(localStorage.getItem("branchID"));
               <>
                 <div className="w-full">
                   <SectionTitle text={"معلومات المنتج التفصيلية:"} />
+                  {/* Barcode */}
+                  <div className="grid grid-cols-2 gap-4 w-full">
+                    <div className="flex items-center justify-end w-full gap-4">
+                      <ButtonComponent
+                        variant={"show"}
+                        textButton={"طباعة ملصقات الباركود"}
+                        onClick={handlePrintImage}
+                      />
+                    </div>
+                    <div className="flex items-center justify-end w-full gap-4">
+                      <div className="flex items-center justify-end w-full gap-4">
+                        <img src={phoneState.qr_code} alt="الباركود" />
+                        <p className="ar-txt">الباركود:</p>
+                      </div>
+                    </div>
+                  </div>
                   <div className="grid grid-cols-2 gap-4 w-full">
                     <div className="flex flex-col items-center justify-start gap-4">
                       <DateInputComponent

@@ -47,6 +47,7 @@ import PhoneDetails from "./pages/manager/PhoneDetails.jsx";
 import Customers from "./pages/sales/Customers.jsx";
 import AddCustomer from "./pages/sales/AddCustomer.jsx";
 import CustomerDetails from "./pages/sales/CustomerDetails.jsx";
+import MakeSale from "./pages/sales/MakeSale.jsx";
 
 export default function App() {
   return (
@@ -222,7 +223,8 @@ export default function App() {
                 path="customers/:CustomerID"
                 element={<CustomerDetails />}
               />
-              <Route path="customers/addCustomer" element={<AddCustomer />} />
+              <Route path="addCustomer" element={<AddCustomer />} />
+              <Route path="makeSale" element={<MakeSale />} />
             </Route>
           </Route>
           {/* ----- End Sales Officer Routes ----- */}

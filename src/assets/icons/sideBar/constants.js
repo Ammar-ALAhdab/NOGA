@@ -53,7 +53,7 @@ const navData = {
     links: {
       المنتجات: [salesProducts, salesProductsHover, "products"],
       الزبائن: [salesCustomers, salesCustomersHover, "customers"],
-      "إجراء عملية بيع": [salesSale, salesSaleHover, "sale"],
+      "إجراء عملية بيع": [salesSale, salesSaleHover, "makeSale"],
       "إنشاء سجل زبون": [
         salesAddCustomer,
         salesAddCustomerHover,

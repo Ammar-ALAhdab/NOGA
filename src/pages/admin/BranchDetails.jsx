@@ -54,7 +54,7 @@ function BranchDetails() {
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
       <Title
-        text={`شركة نوجا تيك فرع: ${branchInfo.city_name} ${branchInfo.number}`}
+        text={`شركة نوجا تيك فرع: ${branchInfo?.city_name} ${branchInfo?.number}`}
       />
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         <div className="flex flex-col items-center justify-center gap-4">

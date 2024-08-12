@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import useLogout from "../../hooks/useLogout";
 import { useCookies } from "react-cookie";
+import noProfilePhoto from "../../assets/demo/no_profile_img.jpg";
 
 function SideBar({ role }) {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -13,11 +14,13 @@ function SideBar({ role }) {
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
   };
+  let name = "";
   let branchName = "";
   let profileImage = null;
+  name = JSON?.parse(localStorage.getItem("name"));
+  profileImage = JSON?.parse(localStorage.getItem("image"));
   if (role == "branchManager" || role == "salesOfficer") {
-    branchName = JSON.parse(localStorage.getItem("branchName"));
-    profileImage = JSON.parse(localStorage.getItem("image"));
+    branchName = JSON?.parse(localStorage.getItem("branchName"));
   }
   return (
     <div
@@ -50,7 +53,13 @@ function SideBar({ role }) {
         )}
         {isExpanded && (
           <>
-            <div className="md:w-[50px] md:h-[50px] lg:w-[75px] lg:h-[75px] rounded-full bg-white"></div>
+            <div className="md:w-[50px] md:h-[50px] lg:w-[75px] lg:h-[75px] rounded-full border-2 border-white overflow-hidden">
+              <img
+                src={profileImage ? profileImage : noProfilePhoto}
+                alt="profile Image"
+                className="w-full"
+              />
+            </div>
             <div className="w-full text-white text-center">
               <h1 className="md:text-[14px] lg:text-lg mb-2" dir="rtl">
                 {cookies.role == "admin"
@@ -58,7 +67,7 @@ function SideBar({ role }) {
                   : `${navData[role].role} ${branchName}`}
               </h1>
               <p className="text-sm">
-                {cookies.role == "admin" ? "NOGA" : "some one"}
+                {cookies.role == "admin" ? "NOGA" : name ? name : "some one"}
               </p>
             </div>
           </>
