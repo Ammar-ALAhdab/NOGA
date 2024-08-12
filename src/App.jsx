@@ -48,6 +48,7 @@ import Customers from "./pages/sales/Customers.jsx";
 import AddCustomer from "./pages/sales/AddCustomer.jsx";
 import CustomerDetails from "./pages/sales/CustomerDetails.jsx";
 import MakeSale from "./pages/sales/MakeSale.jsx";
+import ManagerStatistics from "./pages/manager/ManagerStatistics.jsx";
 
 export default function App() {
   return (
@@ -186,7 +187,7 @@ export default function App() {
             <Route path="/branchManager" element={<BranchManager />}>
               {/* Redirect to statistics by default */}
               <Route index element={<Navigate to="statistics" />} />
-              <Route path="statistics" element={<Statistics />} />
+              <Route path="statistics" element={<ManagerStatistics />} />
               <Route
                 path="products"
                 element={<BranchProducts manager={true} />}

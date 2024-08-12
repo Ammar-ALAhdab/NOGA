@@ -25,6 +25,12 @@ const variant = {
     text: "الزبائن الجدد",
     icon: "",
   },
+  topazManager: {
+    color:
+      "linear-gradient(120deg, rgba(88,236,214,1) 29%, rgba(45,189,168,1) 69%",
+    text: "جميع العائدات",
+    icon: "",
+  },
 };
 
 function StatisticsBox({ type, value }) {

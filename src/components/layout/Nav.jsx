@@ -13,8 +13,8 @@ function Nav() {
         width={100}
       />
       <div className="w-[15%] flex justify-center items-center gap-8 text-white">
-        <FontAwesomeIcon icon={faBell} size="lg" className="cursor-pointer" />
-        <FontAwesomeIcon icon={faMoon} size="lg" className="cursor-pointer" />
+        {/* <FontAwesomeIcon icon={faBell} size="lg" className="cursor-pointer" />
+        <FontAwesomeIcon icon={faMoon} size="lg" className="cursor-pointer" /> */}
       </div>
     </nav>
   );
