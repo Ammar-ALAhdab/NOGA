@@ -93,14 +93,14 @@ function ManageRequests() {
     setFilterTerms(filter);
     setPage(1);
 
-    getRequests(`/products/request?${filter}`);
+    getRequests(`/products/request?&processed=false${filter}`);
     handleCloseFilter();
   };
 
   const handleChangePage = (event, value) => {
     setPage(value);
     getRequests(
-      `/products/request?page=${value}${
+      `/products/request?&processed=falsepage=${value}${
         searchQuery ? `&search=${searchQuery}` : ""
       }${state.filter ? `${filterTerms}` : ""}`
     );
@@ -116,7 +116,7 @@ function ManageRequests() {
   const handleSearchClick = () => {
     setPage(1);
 
-    getRequests(`/products/request?search=${searchQuery}`);
+    getRequests(`/products/request?&processed=false&search=${searchQuery}`);
   };
 
   const handleCloseFilter = () => {
@@ -127,7 +127,7 @@ function ManageRequests() {
     }, 300);
   };
 
-  const getRequests = async (link = "/products/request") => {
+  const getRequests = async (link = "/products/request?processed=false") => {
     try {
       setLoading(true);
       setError(null);

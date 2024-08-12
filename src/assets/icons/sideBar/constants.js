@@ -10,12 +10,10 @@ import salesAddCustomer from "./sales/sales_add_customer.svg";
 import salesCustomers from "./sales/sales_customers.svg";
 import salesProductsLog from "./sales/sales_products_log.svg";
 import salesProducts from "./sales/sales_products.svg";
-import salesSale from "./sales/sales_sale.svg";
 import salesAddCustomerHover from "./sales/sales_add_customer_h.svg";
 import salesCustomersHover from "./sales/sales_customers_h.svg";
 import salesProductsLogHover from "./sales/sales_products_log_h.svg";
 import salesProductsHover from "./sales/sales_products_h.svg";
-import salesSaleHover from "./sales/sales_sale_h.svg";
 import manageEmployees from "./hr/hr_manage_employees.svg";
 import manageEmployeesHover from "./hr/hr_manage_employees_h.svg";
 import warehouseAdSendProducts from "./warehouseAdmin/warehouse_admin_send_products.svg";
@@ -53,7 +51,6 @@ const navData = {
     links: {
       المنتجات: [salesProducts, salesProductsHover, "products"],
       الزبائن: [salesCustomers, salesCustomersHover, "customers"],
-      "إجراء عملية بيع": [salesSale, salesSaleHover, "makeSale"],
       "إنشاء سجل زبون": [
         salesAddCustomer,
         salesAddCustomerHover,

@@ -10,6 +10,7 @@ import procedure from "../../assets/icons/Buttons/correct.svg";
 import show from "../../assets/icons/Buttons/show.svg";
 import reject from "../../assets/icons/Buttons/reject.svg";
 import send from "../../assets/icons/sideBar/warehouseAdmin/warehouse_admin_send_products.svg";
+import salesSale from "../../assets/icons/sideBar/sales/sales_sale.svg";
 
 const buttonVariants = {
   add: {
@@ -74,7 +75,7 @@ const buttonVariants = {
   },
   purchases: {
     text: "عرض المشتريات",
-    icon: reject,
+    icon: salesSale,
     backgroundColor: "#2DBDA8",
   },
 };
