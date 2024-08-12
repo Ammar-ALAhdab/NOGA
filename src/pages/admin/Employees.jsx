@@ -118,7 +118,7 @@ function Employees() {
   const formatEmployeesRows = (unFormattedData) => {
     const rowsData = unFormattedData.map((row) => ({
       id: row.id,
-      profilePhoto: row?.profilePhoto,
+      profilePhoto: row?.image,
       fullName: `${row.first_name} ${row.middle_name} ${row.last_name}`,
       jopTitle: `${row.job_type_title}`,
       branch: row.branch == null ? "لا يوجد" : `${row.branch_name}`,

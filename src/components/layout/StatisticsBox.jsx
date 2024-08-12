@@ -27,19 +27,21 @@ const variant = {
   },
 };
 
-function StatisticsBox({ type }) {
+function StatisticsBox({ type, value }) {
   return (
     <div
-      className="w-1/4 h-[150px] rounded-3xl flex justify-center items-center p-4"
+      className="w-1/4 h-[150px] rounded-3xl flex flex-col justify-center items-center gap-4 p-4"
       style={{ background: variant[type].color }}
     >
       <h2 className="text-white font-bold">:{variant[type].text}</h2>
+      <p className="text-white font-bold">{value}</p>
     </div>
   );
 }
 
 StatisticsBox.propTypes = {
   type: PropTypes.string,
+  value: PropTypes.string,
 };
 
 export default StatisticsBox;

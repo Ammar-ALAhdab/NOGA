@@ -106,7 +106,7 @@ function EmployeeDetails() {
     handleImageChange,
     handleImageDelete,
     triggerFileInput,
-  } = useSelectedImg();
+  } = useSelectedImg(state.image);
 
   const deleteEmployee = async (id) => {
     Swal.fire({
