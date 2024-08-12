@@ -32,7 +32,6 @@ const initialFilterState = {
 
 const ORDERING_FIELDS = [
   { id: "product_name", title: "اسم المنتج" },
-  { id: "wholesale_price", title: "سعر التكلفة" },
   { id: "selling_price", title: "سعر المبيع" },
   { id: "quantity", title: "الكمية" },
 ];
@@ -265,13 +264,13 @@ function ProductsSalesTable({
               />
               <FilterInputComponent
                 name="minPrice"
-                placeholder="فتلرة حسب أقل سعر تكلفة"
+                placeholder="فتلرة حسب أقل سعر"
                 value={state.minPrice}
                 onChange={handleFilterTerms}
               />
               <FilterInputComponent
                 name="maxPrice"
-                placeholder="فتلرة حسب أكبر سعر تكلفة"
+                placeholder="فتلرة حسب أكبر سعر"
                 value={state.maxPrice}
                 onChange={handleFilterTerms}
               />

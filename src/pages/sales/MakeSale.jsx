@@ -221,11 +221,6 @@ const ref = useRef(null);
       },
     },
     {
-      field: "barcode",
-      headerName: "معرف المنتج",
-      width: 150,
-    },
-    {
       field: "productName",
       headerName: "اسم المنتج",
       width: 150,
@@ -243,7 +238,7 @@ const ref = useRef(null);
     {
       field: "wantedQuantity",
       headerName: "الكمية المطلوبة",
-      width: 150,
+      flex: 1,
       editable: true,
     },
     {

@@ -45,11 +45,6 @@ function ProductsCopy() {
       },
     },
     {
-      field: "barcode",
-      headerName: "معرف المنتج",
-      flex: 1,
-    },
-    {
       field: "productName",
       headerName: "اسم المنتج",
       width: 150,

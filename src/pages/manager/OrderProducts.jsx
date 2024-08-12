@@ -116,7 +116,7 @@ function OrderProducts() {
                 title: "تمت عملية الطلب بنجاح، في انتظار المعالجة",
                 icon: "success",
               });
-              console.log(OrderedProducts)
+              console.log(OrderedProducts);
               setSelectedProducts([]);
               setDescription("");
             })
@@ -207,11 +207,6 @@ function OrderProducts() {
           </div>
         );
       },
-    },
-    {
-      field: "barcode",
-      headerName: "معرف المنتج",
-      flex: 1,
     },
     {
       field: "productName",
