@@ -6,7 +6,7 @@ function TablePagination({ count = 5, page, handleChangePage, rowsName }) {
     <div className="w-[95%] flex items-center p-4">
       <div className="flex flex-1 justify-center items-center">
         <Pagination
-          count={Math.ceil(count / 5)}
+          count={Math.ceil(count / 10)}
           page={page}
           showFirstButton
           showLastButton

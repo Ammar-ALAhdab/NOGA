@@ -13,6 +13,7 @@ import FilterDropDown from "../../components/inputs/FilterDropDown";
 import SectionTitle from "../../components/titles/SectionTitle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import noProfilePhoto from "../../assets/demo/no_profile_img.jpg";
 
 const initialFilterState = {
   filter: false,
@@ -118,7 +119,7 @@ function Employees() {
   const formatEmployeesRows = (unFormattedData) => {
     const rowsData = unFormattedData.map((row) => ({
       id: row.id,
-      profilePhoto: row?.image,
+      profilePhoto: row?.image ? row?.image : noProfilePhoto,
       fullName: `${row.first_name} ${row.middle_name} ${row.last_name}`,
       jopTitle: `${row.job_type_title}`,
       branch: row.branch == null ? "لا يوجد" : `${row.branch_name}`,

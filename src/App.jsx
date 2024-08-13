@@ -10,9 +10,9 @@ import BranchAccounts from "./pages/admin/BranchAccounts.jsx";
 import MangerAccountDetails from "./pages/admin/MangerAccountDetails.jsx";
 import SalesAccounts from "./pages/admin/SalesAccounts.jsx";
 import SalesAccountDetails from "./pages/admin/SalesAccountDetails.jsx";
-import Settings from "./pages/admin/Settings.jsx";
-import SystemAccounts from "./pages/admin/SystemAccounts.jsx";
-import SystemAccountsUsers from "./components/layout/SystemAccountsUsers.jsx";
+// import Settings from "./pages/admin/Settings.jsx";
+// import SystemAccounts from "./pages/admin/SystemAccounts.jsx";
+// import SystemAccountsUsers from "./components/layout/SystemAccountsUsers.jsx";
 import SystemSettings from "./pages/admin/SystemSettings.jsx";
 import Employees from "./pages/admin/Employees.jsx";
 import AddEmployee from "./pages/admin/AddEmployee.jsx";
@@ -91,8 +91,8 @@ export default function App() {
                 element={<SalesAccountDetails />}
               />
               <Route path="branches/addBranch" element={<AddBranch />} />
-              <Route path="settings" element={<Settings />} />
-              <Route
+              <Route path="settings" element={<SystemSettings />} />
+              {/* <Route
                 path="settings/systemSettings"
                 element={<SystemSettings />}
               />
@@ -111,7 +111,7 @@ export default function App() {
               <Route
                 path="settings/systemAccounts/hrAccount"
                 element={<SystemAccountsUsers userType={"hr"} />}
-              />
+              /> */}
               <Route path="manageEmployees" element={<Employees />} />
               <Route
                 path="manageEmployees/:EmployeeID"

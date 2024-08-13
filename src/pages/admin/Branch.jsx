@@ -14,12 +14,12 @@ const boxes = [
     icon: branchStatistics,
     link: "",
   },
-  {
-    text: "إدارة الحسابات",
-    color: "#D9A322",
-    icon: branchAccounts,
-    link: "BranchAccounts",
-  },
+  // {
+  //   text: "إدارة الحسابات",
+  //   color: "#D9A322",
+  //   icon: branchAccounts,
+  //   link: "BranchAccounts",
+  // },
   {
     text: "إدارة معلومات الفرع",
     color: "#E76D3B",
