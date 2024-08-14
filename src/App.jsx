@@ -49,6 +49,7 @@ import AddCustomer from "./pages/sales/AddCustomer.jsx";
 import CustomerDetails from "./pages/sales/CustomerDetails.jsx";
 import MakeSale from "./pages/sales/MakeSale.jsx";
 import ManagerStatistics from "./pages/manager/ManagerStatistics.jsx";
+import ProductsRequestLog from "./pages/manager/ProductsRequestLog.jsx";
 
 export default function App() {
   return (
@@ -73,6 +74,10 @@ export default function App() {
               <Route
                 path="branches/:BranchId/details"
                 element={<BranchDetails />}
+              />
+              <Route
+                path="branches/:BranchId/branchStatistics"
+                element={<ManagerStatistics />}
               />
               <Route
                 path="branches/:BranchId/branchAccounts"
@@ -201,6 +206,10 @@ export default function App() {
                 element={<AccessoryDetails />}
               />
               <Route path="orderProducts" element={<OrderProducts />} />
+              <Route
+                path="productsRequestLog"
+                element={<ProductsRequestLog />}
+              />
             </Route>
           </Route>
           {/* ----- End Branch Manger Routes ----- */}

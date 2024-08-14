@@ -8,7 +8,8 @@ import back from "../../assets/icons/Buttons/back.svg";
 import edit from "../../assets/icons/Buttons/edit.svg";
 import procedure from "../../assets/icons/Buttons/correct.svg";
 import show from "../../assets/icons/Buttons/show.svg";
-import reject from "../../assets/icons/Buttons/reject.svg";
+import reject from "../../assets/icons/Buttons/x.svg";
+import cart from "../../assets/icons/Buttons/cart.svg";
 import send from "../../assets/icons/sideBar/warehouseAdmin/warehouse_admin_send_products.svg";
 import salesSale from "../../assets/icons/sideBar/sales/sales_sale.svg";
 
@@ -75,6 +76,11 @@ const buttonVariants = {
   },
   purchases: {
     text: "عرض المشتريات",
+    icon: cart,
+    backgroundColor: "#2DBDA8",
+  },
+  sale: {
+    text:"إجراء عملية بيع",
     icon: salesSale,
     backgroundColor: "#2DBDA8",
   },

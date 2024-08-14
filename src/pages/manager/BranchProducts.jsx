@@ -88,7 +88,7 @@ function BranchProducts({ manager = false }) {
         {rowSelectionID.length > 0 && (
           <ButtonComponent
             textButton="إجراء عملية بيع"
-            variant={"procedure"}
+            variant={"purchases"}
             onClick={() => {
               navigate("/salesOfficer/makeSale", {
                 state: { productsIDs: rowSelectionID },

@@ -35,6 +35,8 @@ function DataTableEditRow({
   link,
   dir,
   pagination = false,
+  lastColumn = {},
+  requestColumns = false,
 }) {
   const [visualRows, setVisualRows] = useState(rows);
   const [rowModesModel, setRowModesModel] = useState({});
@@ -100,6 +102,12 @@ function DataTableEditRow({
       },
     },
   ];
+
+  if (requestColumns == true) {
+    visualColumns.push(lastColumn);
+  }
+
+  console.log(visualColumns)
 
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
@@ -176,7 +184,7 @@ function DataTableEditRow({
       }),
     [existingTheme]
   );
-  columns.forEach((element) => {
+  visualColumns.forEach((element) => {
     element.headerAlign = "center";
     element.align = "center";
   });
@@ -241,8 +249,10 @@ DataTableEditRow.propTypes = {
   updateFunction: PropTypes.func,
   deleteFunction: PropTypes.func,
   pagination: PropTypes.bool,
+  requestColumns: PropTypes.bool,
   link: PropTypes.string,
   dir: PropTypes.string,
+  lastColumn: PropTypes.object,
 };
 
 export default DataTableEditRow;

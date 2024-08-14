@@ -1,38 +1,57 @@
-import { useEffect, useReducer, useState } from "react";
 import Title from "../../components/titles/Title";
-import ButtonComponent from "../../components/buttons/ButtonComponent";
-import DataTable from "../../components/table/DataTable";
+import { useState, useEffect, useReducer } from "react";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import DataTableAccordion from "../../components/table/DataTableAccordion";
 import LoadingSpinner from "../../components/actions/LoadingSpinner";
 import NoDataError from "../../components/actions/NoDataError";
-import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import TablePagination from "../../components/table/TablePagination";
-import SearchComponent from "../../components/inputs/SearchComponent";
+import ButtonComponent from "../../components/buttons/ButtonComponent";
+import FilterDropDown from "../../components/inputs/FilterDropDown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import SectionTitle from "../../components/titles/SectionTitle";
-import FilterDropDown from "../../components/inputs/FilterDropDown";
+import SearchComponent from "../../components/inputs/SearchComponent";
 
-const formatting = (unFormattedData) => {
-  const rowsData = unFormattedData.map((row) => ({
-    id: row.id,
-    branchName: row.branch_name,
-    address: row?.address,
-    date: row.date_of_request,
-    note: row.note,
-    productsRequest: row.requests,
-    options: <ButtonComponent />,
-  }));
-  return rowsData;
-};
+const columns = [
+  { field: "id", headerName: "", width: 50 },
+  {
+    field: "idOfOrder",
+    headerName: "معرف الفاتورة",
+    width: 50,
+    valueGetter: (value, row) => `#${row.id}`,
+  },
+  { field: "customerName", headerName: "اسم المشتري", flex: 1 },
+  { field: "branch", headerName: "الفرع", flex: 1 },
+  { field: "address", headerName: "العنوان", flex: 1 },
+  { field: "date", headerName: "التاريخ", flex: 1 },
+  { field: "productCount", headerName: "عدد المنتجات", flex: 1 },
+];
 
-const formatBranches = (unFormattedData) => {
-  const data = unFormattedData.map((d) => ({
-    id: d.id,
-    title: `${d.number} ${d.city_name}`,
-  }));
-  return data;
-};
+const detailColumns = [
+  { field: "id", headerName: "#", width: 50 },
+  { field: "product_name", headerName: "اسم المنتج", flex: 1 },
+  {
+    field: "category_name",
+    headerName: "النوع",
+    align: "center",
+    flex: 1,
+  },
+  {
+    field: "wantedQuantity",
+    headerName: "الكمية",
+    flex: 1,
+  },
+  {
+    field: "price",
+    headerName: "السعر",
+    flex: 1,
+  },
+  {
+    field: "totalPrice",
+    headerName: "السعر الإجمالي",
+    flex: 1,
+  },
+];
 
 const initialFilterState = {
   filter: false,
@@ -41,7 +60,7 @@ const initialFilterState = {
   orderingType: "",
 };
 
-const ORDERING_FIELDS = [{ id: "date_of_request", title: "تاريخ الطلب" }];
+const ORDERING_FIELDS = [{ id: "date_of_request", title: "التاريخ" }];
 
 const ORDERING_TYPE = [
   { id: 1, title: "تصاعدي" },
@@ -59,23 +78,20 @@ const reducer = (state, action) => {
   }
 };
 
-function ManageRequests() {
-  const [requests, setRequests] = useState(null);
+function PurchasedProductsLog() {
+  const [productsTransportLog, setProductsTransportLog] = useState([]);
   const [paginationSettings, setPaginationSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const axiosPrivate = useAxiosPrivate();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterShow, setFilterShow] = useState(false);
   const [filterTerms, setFilterTerms] = useState("");
-  const [branches, setBranches] = useState([]);
-
-  const [scrollTop, setScrollTop] = useState(0);
-  const [page, setPage] = useState(1);
-
-  const navigate = useNavigate();
-  const axiosPrivate = useAxiosPrivate();
-
   const [state, dispatch] = useReducer(reducer, initialFilterState);
+  const [scrollTop, setScrollTop] = useState(0);
+  const branchID = JSON.parse(localStorage.getItem("branchID"));
+  const branchName = JSON.parse(localStorage.getItem("branchName"));
 
   const handleFilterTerms = (e) => {
     const { name, value } = e.target;
@@ -83,24 +99,22 @@ function ManageRequests() {
   };
 
   const handleFilterClick = () => {
-    let branchFilter = state.branch ? `&branch_id=${state.branch}` : "";
     let orderingTypeFilter =
       state.orderingType == 1 || state.orderingType == "" ? "" : "-";
     let orderingFilter = state.ordering
       ? `&ordering=${orderingTypeFilter}${state.ordering}`
       : "";
-    let filter = branchFilter + orderingFilter;
+    let filter = orderingFilter;
     setFilterTerms(filter);
     setPage(1);
-
-    getRequests(`/products/request?&processed=false${filter}`);
+    getProductsRequests(`/products/request?branch_id=${branchID}${filter}`);
     handleCloseFilter();
   };
 
   const handleChangePage = (event, value) => {
     setPage(value);
-    getRequests(
-      `/products/request?&processed=false&page=${value}${
+    getProductsRequests(
+      `/products/request?branch_id=${branchID}&page=${value}${
         searchQuery ? `&search=${searchQuery}` : ""
       }${state.filter ? `${filterTerms}` : ""}`
     );
@@ -116,7 +130,29 @@ function ManageRequests() {
   const handleSearchClick = () => {
     setPage(1);
 
-    getRequests(`/products/request?&processed=false&search=${searchQuery}`);
+    getProductsRequests(`/products/request?branch_id=${branchID}&search=${searchQuery}`);
+  };
+
+  const formatting = (unFormattedData) => {
+    const rowsData = unFormattedData?.map((row) => {
+      return {
+        id: row.id,
+        idOfOrder: row.id,
+        date: row.date_of_request,
+        branch: row.branch_name,
+        productCount: row?.requests?.length,
+        RequestedProducts: row.requests?.map((rq) => {
+          return {
+            id: rq.id,
+            status: rq.status,
+            wantedQuantity: rq.quantity,
+            product_name: rq.product.product_name,
+            category_name: rq.product.category_name,
+          };
+        }),
+      };
+    });
+    return rowsData;
   };
 
   const handleCloseFilter = () => {
@@ -127,88 +163,36 @@ function ManageRequests() {
     }, 300);
   };
 
-  const getRequests = async (link = "/products/request?processed=false") => {
+  const getProductsRequests = async (
+    link = `/products/request?branch_id=${branchID}`
+  ) => {
     try {
       setLoading(true);
       setError(null);
       const response = await axiosPrivate.get(link);
-      console.log(response);
-      const data = formatting(response.data.results);
-      setRequests(data);
+      const data = formatting(response?.data?.results);
+      setProductsTransportLog(data);
       setPaginationSettings({
-        count: response.data.count,
-        next: response.data.next,
-        previous: response.data.previous,
+        count: response?.data?.count,
+        next: response?.data?.next,
+        previous: response?.data?.previous,
       });
     } catch (e) {
+      console.log(e);
       setError(e);
     } finally {
       setLoading(false);
     }
   };
 
-  const getBranches = async (url = "/branches") => {
-    try {
-      const response = await axiosPrivate.get(url);
-      const formattedData = formatBranches(response.data.results);
-      setBranches((prev) => [...prev, ...formattedData]);
-      if (response.data.next) {
-        getBranches(response.data.next);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleGoToBranchRequests = (request) => {
-    navigate(`${request.row.id}`, {
-      state: { products: request.row.productsRequest, note: request.row.note },
-    });
-  };
-
-  const columns = [
-    { field: "id", headerName: "ID", width: 50 },
-    {
-      field: "branchName",
-      headerName: "الفرع",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "العنوان",
-      flex: 1,
-    },
-    {
-      field: "date",
-      headerName: "تاريخ الطلب",
-      flex: 1,
-    },
-    {
-      field: "options",
-      headerName: "خيارات",
-      width: 150,
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <ButtonComponent
-            variant={"show"}
-            small={true}
-            onClick={() => handleGoToBranchRequests(params)}
-          />
-        );
-      },
-    },
-  ];
-
   useEffect(() => {
-    getBranches();
-    getRequests();
+    getProductsRequests();
   }, []);
 
   return (
-    <main className="flex flex-col items-center justify-between w-full h-full flex-grow">
-      <Title text={"إدارة طلبات المنتجات:"} />
-      <section className="flex flex-col items-center justify-center w-full bg-white rounded-[30px] p-4 my-box-shadow gap-8">
+    <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
+      <Title text={`سجل المشتريات فرع ${branchName}: `} />
+      <section className="flex items-center justify-center flex-col gap-4 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         {/* ################################### START SEARCH AND FILTER ################################### */}
         <div className="flex flex-col items-center justify-center gap-2 w-full">
           <div className="flex items-center justify-center gap-8 w-full">
@@ -235,16 +219,6 @@ function ManageRequests() {
               >
                 <FontAwesomeIcon icon={faX} />
               </button>
-              <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
-                <FilterDropDown
-                  data={branches}
-                  dataTitle={"title"}
-                  value={state.branch}
-                  label={"فلترة حسب الفرع"}
-                  name={"branch"}
-                  onChange={handleFilterTerms}
-                />
-              </div>
               <div className="flex flex-row-reverse items-center justify-center gap-2 w-full">
                 <FilterDropDown
                   data={ORDERING_FIELDS}
@@ -281,24 +255,29 @@ function ManageRequests() {
         </div>
 
         {/* ################################### END SEARCH AND FILTER ################################### */}
-
         {loading ? (
           <div className="flex justify-center items-center h-[400px]">
-            <LoadingSpinner w="64px" h="64px" />
+            <LoadingSpinner />
           </div>
         ) : error ? (
           <NoDataError error={error} />
         ) : (
-          <DataTable columns={columns} rows={requests} />
+          <DataTableAccordion
+            columns={columns}
+            rows={productsTransportLog}
+            detailColumns={detailColumns}
+            detailRows={"RequestedProducts"}
+          />
         )}
         <TablePagination
           count={paginationSettings?.count}
           handleChangePage={handleChangePage}
-          rowsName={"الطلبات"}
+          rowsName={"السجلات"}
+          page={page}
         />
       </section>
     </main>
   );
 }
 
-export default ManageRequests;
+export default PurchasedProductsLog;

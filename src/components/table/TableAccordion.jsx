@@ -42,11 +42,11 @@ function TableAccordion({ row, detailColumns, detailRows }) {
   return (
     <ThemeProvider theme={theme}>
       <Stack
-        sx={{ py: 2, height: "100%", boxSizing: "border-box" }}
+        sx={{ py: 2, height: "auto", boxSizing: "border-box" }}
         direction="column"
       >
-        <Paper sx={{ flex: 1, mx: "auto", width: "900px" }}>
-          <Stack direction="column" spacing={1} sx={{ height: 1 }}>
+        <Paper sx={{ flex: 1, mx: "auto", width: "800px" }}>
+          <Stack direction="column" spacing={1} >
             <Typography variant="h6">{`الطلب: ${row.id}#`}</Typography>
             <DataGridPro
               density="compact"

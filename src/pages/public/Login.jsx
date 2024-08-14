@@ -65,10 +65,12 @@ function Login() {
       const accessToken = response?.data?.access;
       const refreshToken = response?.data?.refresh;
       const role = response?.data?.role;
-      const branchID = response?.data?.branch;
-      const name = response?.data?.name;
-      const branchName = response?.data?.branch_name;
-      const image = response?.data?.image;
+      const branchID = response?.data?.branch ? response?.data?.branch : "";
+      const name = response?.data?.name ? response?.data?.name : "";
+      const branchName = response?.data?.branch_name
+        ? response?.data?.branch_name
+        : "";
+      const image = response?.data?.image ? response?.data?.image : "";
       // Store user information in locale storage
       if (role == "Sales Officer" || role == "Manager") {
         localStorage.setItem("branchID", JSON.stringify(branchID));

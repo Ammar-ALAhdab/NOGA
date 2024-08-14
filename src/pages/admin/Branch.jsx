@@ -12,7 +12,7 @@ const boxes = [
     text: "الإحصائيات",
     color: "#7049A3",
     icon: branchStatistics,
-    link: "",
+    link: "branchStatistics",
   },
   // {
   //   text: "إدارة الحسابات",
