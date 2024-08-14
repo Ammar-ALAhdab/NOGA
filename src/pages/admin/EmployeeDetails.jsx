@@ -15,6 +15,8 @@ import useObjectReducer from "../../hooks/useObjectReducer";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { axiosPrivateEmployee } from "../../api/axios";
+import useAuth from "../../auth/useAuth";
 
 const dropDownData = [
   { id: 1, title: "ذكر", sex: true },
@@ -60,6 +62,8 @@ function EmployeeDetails() {
     branch: (value) => value,
   });
 
+  const { auth } = useAuth();
+
   const getBranches = async (url) => {
     try {
       const response = await axiosPrivate.get(url);
@@ -99,8 +103,8 @@ function EmployeeDetails() {
     setBranchName(branches.find((b) => b.id == state.branch));
   }, [branches, state.branch]);
 
-
   const {
+    selectedFile,
     selectedImage,
     delimgButtonFlag,
     handleImageChange,
@@ -153,8 +157,21 @@ function EmployeeDetails() {
       confirmButtonText: "نعم",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosPrivate
-          .put(`/employees/${id}`, JSON.stringify(state))
+        const formData = new FormData();
+        for (const key in state) {
+          if (state[key] !== null) {
+            formData.append(key, state[key]);
+          }
+        }
+        formData.append("image", selectedFile);
+        console.log(selectedFile);
+        axiosPrivateEmployee
+          .put(`employees/${id}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${auth?.accessToken}`,
+            },
+          })
           .then(() => {
             Swal.fire({
               title: "تمت عملية التعديل بنجاح",
@@ -176,159 +193,157 @@ function EmployeeDetails() {
     });
   };
 
-
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
       <Title
         text={`الموظف: ${employeeInfo.first_name} ${employeeInfo.middle_name} ${employeeInfo.last_name}`}
       />
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
-            <div className="w-full">
-              <SectionTitle text={"المعلومات الشخصية:"} />
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-                <div className="flex flex-col items-end justify-start gap-4">
-                  <div className="flex flex-col w-full items-center justify-center gap-4">
-                    <div className="w-fit relative z-10">
-                      <img
-                        src={selectedImage}
-                        alt="profile"
-                        width={125}
-                        height={125}
-                        className="rounded-[50%] border-4 border-primary"
-                      />
-                      {delimgButtonFlag && (
-                        <button
-                          className="absolute top-1 right-1 w-8 h-8 bg-halloweenOrange text-white z-100 rounded-full"
-                          onClick={handleImageDelete}
-                        >
-                          <FontAwesomeIcon icon={faX} />
-                        </button>
-                      )}
-                    </div>
-                    <input
-                      type="file"
-                      id="fileInput"
-                      style={{ display: "none" }}
-                      accept="image/*"
-                      onChange={handleImageChange}
-                    />
-                    <div className="flex items-center justify-center w-full">
-                      <ButtonComponent
-                        textButton="إضافة صورة شخصية"
-                        onClick={triggerFileInput}
-                      />
-                    </div>
-                  </div>
-                  <TextInputComponent
-                    label={"عنوان الإقامة:"}
-                    id={"residence"}
-                    value={state.address}
-                    onChange={address}
+        <div className="w-full">
+          <SectionTitle text={"المعلومات الشخصية:"} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+            <div className="flex flex-col items-end justify-start gap-4">
+              <div className="flex flex-col w-full items-center justify-center gap-4">
+                <div className="w-fit relative z-10">
+                  <img
+                    src={selectedImage}
+                    alt="profile"
+                    width={125}
+                    height={125}
+                    className="rounded-[50%] border-4 border-primary"
                   />
-                  <TextInputComponent
-                    label={"رقم الهاتف:"}
-                    id={"phone"}
-                    value={state.phone}
-                    onChange={phone}
-                    dir="ltr"
-                    placeholder="0912345678"
-                  />
-                  <EmailInputComponent
-                    label={"الإيميل:"}
-                    id={"email"}
-                    value={state.email}
-                    onChange={email}
-                  />
+                  {delimgButtonFlag && (
+                    <button
+                      className="absolute top-1 right-1 w-8 h-8 bg-halloweenOrange text-white z-100 rounded-full"
+                      onClick={handleImageDelete}
+                    >
+                      <FontAwesomeIcon icon={faX} />
+                    </button>
+                  )}
                 </div>
-                <div className="flex flex-col items-start justify-between gap-4">
-                  <TextInputComponent
-                    label={"الاسم:"}
-                    id={"firstName"}
-                    value={state.first_name}
-                    onChange={first_name}
-                  />
-                  <TextInputComponent
-                    label={"اسم الأب:"}
-                    id={"fatherName"}
-                    value={state.middle_name}
-                    onChange={middle_name}
-                  />
-                  <TextInputComponent
-                    label={"الكنية:"}
-                    id={"lastName"}
-                    value={state.last_name}
-                    onChange={last_name}
-                  />
-                  <TextInputComponent
-                    label={"الرقم الوطني:"}
-                    id={"nationalNumber"}
-                    value={state.national_number}
-                    onChange={national_number}
-                  />
-                  <DropDownComponent
-                    data={dropDownData}
-                    dataValue={"sex"}
-                    dataTitle={"title"}
-                    ButtonText={"اختر الجنس"}
-                    label={"الجنس:"}
-                    value={state.gender}
-                    onSelect={gender}
-                  />
-                  <DateInputComponent
-                    label={"تاريخ الميلاد:"}
-                    value={state.birth_date}
-                    onChange={birth_date}
+                <input
+                  type="file"
+                  id="fileInput"
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                <div className="flex items-center justify-center w-full">
+                  <ButtonComponent
+                    textButton="إضافة صورة شخصية"
+                    onClick={triggerFileInput}
                   />
                 </div>
               </div>
-            </div>
-            <div className="w-full">
-              <SectionTitle text={"معلومات العمل:"} />
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-                <div className="flex flex-col items-center justify-start gap-4">
-                  <DropDownComponent
-                    data={jobsTypes}
-                    dataValue={"id"}
-                    dataTitle={"job_type"}
-                    ButtonText={employeeInfo.job_type_title}
-                    label={"المسمى الوظيفي:"}
-                    value={employeeInfo.job_type_title}
-                    onSelect={job_type}
-                  />
-                </div>
-                <div className="flex flex-col items-start justify-center gap-4">
-                  <DropDownComponent
-                    data={branches}
-                    dataValue={"id"}
-                    dataTitle={"branchName"}
-                    ButtonText={branchName?.branchName || "لا يوجد"}
-                    label={"فرع:"}
-                    value={state.branch}
-                    onSelect={branch}
-                  />
-                  <TextInputComponent
-                    label={"الراتب:"}
-                    id={"salary"}
-                    onChange={salary}
-                    value={state.salary}
-                    dir="ltr"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-end gap-4 w-full">
-              <ButtonComponent variant={"back"} onClick={handleClickBack} />
-              <ButtonComponent
-                variant={"delete"}
-                onClick={() => deleteEmployee(state.id)}
+              <TextInputComponent
+                label={"عنوان الإقامة:"}
+                id={"residence"}
+                value={state.address}
+                onChange={address}
               />
-              <ButtonComponent
-                variant={"edit"}
-                textButton="حفظ التعديلات"
-                onClick={() => updateEmployee(state.id)}
+              <TextInputComponent
+                label={"رقم الهاتف:"}
+                id={"phone"}
+                value={state.phone}
+                onChange={phone}
+                dir="ltr"
+                placeholder="0912345678"
+              />
+              <EmailInputComponent
+                label={"الإيميل:"}
+                id={"email"}
+                value={state.email}
+                onChange={email}
               />
             </div>
-
+            <div className="flex flex-col items-start justify-between gap-4">
+              <TextInputComponent
+                label={"الاسم:"}
+                id={"firstName"}
+                value={state.first_name}
+                onChange={first_name}
+              />
+              <TextInputComponent
+                label={"اسم الأب:"}
+                id={"fatherName"}
+                value={state.middle_name}
+                onChange={middle_name}
+              />
+              <TextInputComponent
+                label={"الكنية:"}
+                id={"lastName"}
+                value={state.last_name}
+                onChange={last_name}
+              />
+              <TextInputComponent
+                label={"الرقم الوطني:"}
+                id={"nationalNumber"}
+                value={state.national_number}
+                onChange={national_number}
+              />
+              <DropDownComponent
+                data={dropDownData}
+                dataValue={"sex"}
+                dataTitle={"title"}
+                ButtonText={"اختر الجنس"}
+                label={"الجنس:"}
+                value={state.gender}
+                onSelect={gender}
+              />
+              <DateInputComponent
+                label={"تاريخ الميلاد:"}
+                value={state.birth_date}
+                onChange={birth_date}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="w-full">
+          <SectionTitle text={"معلومات العمل:"} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+            <div className="flex flex-col items-center justify-start gap-4">
+              <DropDownComponent
+                data={jobsTypes}
+                dataValue={"id"}
+                dataTitle={"job_type"}
+                ButtonText={employeeInfo.job_type_title}
+                label={"المسمى الوظيفي:"}
+                value={employeeInfo.job_type_title}
+                onSelect={job_type}
+              />
+            </div>
+            <div className="flex flex-col items-start justify-center gap-4">
+              <DropDownComponent
+                data={branches}
+                dataValue={"id"}
+                dataTitle={"branchName"}
+                ButtonText={branchName?.branchName || "لا يوجد"}
+                label={"فرع:"}
+                value={state.branch}
+                onSelect={branch}
+              />
+              <TextInputComponent
+                label={"الراتب:"}
+                id={"salary"}
+                onChange={salary}
+                value={state.salary}
+                dir="ltr"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-end gap-4 w-full">
+          <ButtonComponent variant={"back"} onClick={handleClickBack} />
+          <ButtonComponent
+            variant={"delete"}
+            onClick={() => deleteEmployee(state.id)}
+          />
+          <ButtonComponent
+            variant={"edit"}
+            textButton="حفظ التعديلات"
+            onClick={() => updateEmployee(state.id)}
+          />
+        </div>
       </section>
     </main>
   );

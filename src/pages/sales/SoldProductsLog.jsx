@@ -11,16 +11,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import SectionTitle from "../../components/titles/SectionTitle";
 import SearchComponent from "../../components/inputs/SearchComponent";
+import currencyFormatting from "../../util/currencyFormatting";
 
 const columns = [
   { field: "id", headerName: "", width: 50 },
   {
     field: "idOfOrder",
     headerName: "معرف الفاتورة",
-    width: 50,
+    flex: 1,
     valueGetter: (value, row) => `#${row.id}`,
   },
-  { field: "customerName", headerName: "اسم المشتري", flex: 1 },
+  { field: "customerName", headerName: "اسم المشتري", width: 200 },
   { field: "branch", headerName: "الفرع", flex: 1 },
   { field: "address", headerName: "العنوان", flex: 1 },
   { field: "date", headerName: "التاريخ", flex: 1 },
@@ -37,7 +38,7 @@ const detailColumns = [
     flex: 1,
   },
   {
-    field: "wantedQuantity",
+    field: "purchased_quantity",
     headerName: "الكمية",
     flex: 1,
   },
@@ -48,7 +49,7 @@ const detailColumns = [
   },
   {
     field: "totalPrice",
-    headerName: "السعر الإجمالي",
+    headerName: "المبلغ الإجمالي",
     flex: 1,
   },
 ];
@@ -78,7 +79,7 @@ const reducer = (state, action) => {
   }
 };
 
-function PurchasedProductsLog() {
+function SoldProductsLog() {
   const [productsTransportLog, setProductsTransportLog] = useState([]);
   const [paginationSettings, setPaginationSettings] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -107,14 +108,14 @@ function PurchasedProductsLog() {
     let filter = orderingFilter;
     setFilterTerms(filter);
     setPage(1);
-    getProductsRequests(`/products/request?branch_id=${branchID}${filter}`);
+    getPurchasedProducts(`/purchase?branch_id=${branchID}${filter}`);
     handleCloseFilter();
   };
 
   const handleChangePage = (event, value) => {
     setPage(value);
-    getProductsRequests(
-      `/products/request?branch_id=${branchID}&page=${value}${
+    getPurchasedProducts(
+      `/purchase?branch_id=${branchID}&page=${value}${
         searchQuery ? `&search=${searchQuery}` : ""
       }${state.filter ? `${filterTerms}` : ""}`
     );
@@ -130,24 +131,31 @@ function PurchasedProductsLog() {
   const handleSearchClick = () => {
     setPage(1);
 
-    getProductsRequests(`/products/request?branch_id=${branchID}&search=${searchQuery}`);
+    getPurchasedProducts(
+      `/purchase?branch_id=${branchID}&search=${searchQuery}`
+    );
   };
 
   const formatting = (unFormattedData) => {
     const rowsData = unFormattedData?.map((row) => {
       return {
-        id: row.id,
-        idOfOrder: row.id,
-        date: row.date_of_request,
+        id: row.purchase_id,
+        idOfOrder: row.purchase_id,
+        date: row.date_of_purchase,
         branch: row.branch_name,
-        productCount: row?.requests?.length,
-        RequestedProducts: row.requests?.map((rq) => {
+        address: row.address,
+        customerName: row.customer_name,
+        productCount: row?.products?.length,
+        purchasedProducts: row.products?.map((p) => {
           return {
-            id: rq.id,
-            status: rq.status,
-            wantedQuantity: rq.quantity,
-            product_name: rq.product.product_name,
-            category_name: rq.product.category_name,
+            id: p.product_id,
+            price: currencyFormatting(p.selling_price),
+            totalPrice:
+              currencyFormatting(Number(p.selling_price) *
+              Number(p.purchased_quantity)),
+            purchased_quantity: p.purchased_quantity,
+            product_name: p?.product?.product_name,
+            category_name: p?.product?.category_name,
           };
         }),
       };
@@ -163,8 +171,8 @@ function PurchasedProductsLog() {
     }, 300);
   };
 
-  const getProductsRequests = async (
-    link = `/products/request?branch_id=${branchID}`
+  const getPurchasedProducts = async (
+    link = `/purchase?branch_id=${branchID}`
   ) => {
     try {
       setLoading(true);
@@ -186,7 +194,7 @@ function PurchasedProductsLog() {
   };
 
   useEffect(() => {
-    getProductsRequests();
+    getPurchasedProducts();
   }, []);
 
   return (
@@ -266,7 +274,8 @@ function PurchasedProductsLog() {
             columns={columns}
             rows={productsTransportLog}
             detailColumns={detailColumns}
-            detailRows={"RequestedProducts"}
+            detailRows={"purchasedProducts"}
+            titleOfTable="الفاتورة"
           />
         )}
         <TablePagination
@@ -280,4 +289,4 @@ function PurchasedProductsLog() {
   );
 }
 
-export default PurchasedProductsLog;
+export default SoldProductsLog;

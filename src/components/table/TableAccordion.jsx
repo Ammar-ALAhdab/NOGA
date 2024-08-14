@@ -7,7 +7,7 @@ import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import { useMemo } from "react";
 import { arSD } from "@mui/x-data-grid/locales";
 
-function TableAccordion({ row, detailColumns, detailRows }) {
+function TableAccordion({ row, detailColumns, detailRows ,titleOfTable="الطلب"}) {
   const existingTheme = useTheme();
   const theme = useMemo(
     () =>
@@ -46,8 +46,8 @@ function TableAccordion({ row, detailColumns, detailRows }) {
         direction="column"
       >
         <Paper sx={{ flex: 1, mx: "auto", width: "800px" }}>
-          <Stack direction="column" spacing={1} >
-            <Typography variant="h6">{`الطلب: ${row.id}#`}</Typography>
+          <Stack direction="column" spacing={1}>
+            <Typography variant="h6">{`${titleOfTable}: ${row.id}#`}</Typography>
             <DataGridPro
               density="compact"
               columns={detailColumns}
@@ -77,5 +77,6 @@ export default TableAccordion;
 TableAccordion.propTypes = {
   detailColumns: PropTypes.array,
   detailRows: PropTypes.string,
+  titleOfTable: PropTypes.string,
   row: PropTypes.object,
 };

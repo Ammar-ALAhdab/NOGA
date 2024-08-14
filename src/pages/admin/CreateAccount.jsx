@@ -21,8 +21,6 @@ function CreateAccount({ userType }) {
   const Toast = useToast();
   const navigate = useNavigate();
 
-  console.log(employeeInfo);
-
   const handleClickBack = useGoToBack();
 
   const handleUsername = (u) => {

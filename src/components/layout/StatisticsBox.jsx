@@ -46,8 +46,10 @@ function StatisticsBox({ type, value }) {
     >
       <img src={variant[type].icon} />
       <div className="flex flex-col flex-1 justify-center items-center gap-4">
-        <h2 className="text-white font-bold">:{variant[type].text}</h2>
-        <p className="text-white font-bold">{value}</p>
+        <h2 className="text-white font-bold text-center">
+          :{variant[type].text}
+        </h2>
+        <p className="text-white font-bold text-center">{value}</p>
       </div>
     </div>
   );

@@ -16,8 +16,8 @@ const columns = [
   { field: "id", headerName: "", width: 50 },
   {
     field: "idOfOrder",
-    headerName: "معرف الطلب",
-    width: 100,
+    headerName: "معرف المناقلة",
+    width: 200,
     valueGetter: (value, row) => `#${row.id}`,
   },
   { field: "date", headerName: "التاريخ", flex: 1 },
@@ -301,6 +301,7 @@ function ProductsLog() {
             rows={productsTransportLog}
             detailColumns={detailColumns}
             detailRows={"transportedProduct"}
+            titleOfTable="المناقلة"
           />
         )}
         <TablePagination

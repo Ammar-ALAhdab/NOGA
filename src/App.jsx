@@ -50,6 +50,7 @@ import CustomerDetails from "./pages/sales/CustomerDetails.jsx";
 import MakeSale from "./pages/sales/MakeSale.jsx";
 import ManagerStatistics from "./pages/manager/ManagerStatistics.jsx";
 import ProductsRequestLog from "./pages/manager/ProductsRequestLog.jsx";
+import SoldProductsLog from "./pages/sales/SoldProductsLog.jsx";
 
 export default function App() {
   return (
@@ -210,6 +211,7 @@ export default function App() {
                 path="productsRequestLog"
                 element={<ProductsRequestLog />}
               />
+              <Route path="soldProductsLog" element={<SoldProductsLog />} />
             </Route>
           </Route>
           {/* ----- End Branch Manger Routes ----- */}
@@ -235,6 +237,7 @@ export default function App() {
               />
               <Route path="addCustomer" element={<AddCustomer />} />
               <Route path="makeSale" element={<MakeSale />} />
+              <Route path="soldProductsLog" element={<SoldProductsLog />} />
             </Route>
           </Route>
           {/* ----- End Sales Officer Routes ----- */}

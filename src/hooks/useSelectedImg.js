@@ -52,6 +52,7 @@ const useSelectedImg = (profilePhoto) => {
 
   return {
     selectedFile,
+    setSelectedFile,
     selectedImage,
     delimgButtonFlag,
     handleImageChange,

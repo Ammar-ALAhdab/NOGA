@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { axiosPrivateEmployee } from "../../api/axios";
 import useAuth from "../../auth/useAuth";
+import noProfilePhoto from "../../assets/demo/no_profile_img.jpg";
 
 const dropDownGenderData = [
   { id: 1, title: "ذكر", sex: true },
@@ -99,12 +100,13 @@ function AddEmployee({ userType }) {
 
   const {
     selectedFile,
+    setSelectedFile,
     selectedImage,
     delimgButtonFlag,
     handleImageChange,
     handleImageDelete,
     triggerFileInput,
-  } = useSelectedImg();
+  } = useSelectedImg(noProfilePhoto);
 
   const getBranches = async (url) => {
     try {
@@ -145,11 +147,10 @@ function AddEmployee({ userType }) {
         }
       }
       formData.append("image", selectedFile);
-      console.log(selectedFile);
       await axiosPrivateEmployee.post("employees", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization :`Bearer ${auth?.accessToken}`
+          Authorization: `Bearer ${auth?.accessToken}`,
         },
       });
       Toast.fire({
@@ -161,7 +162,7 @@ function AddEmployee({ userType }) {
           ? navigate(`/${userType}/manageEmployees/createAccount`, {
               state: { employee: { info: state, job: THE_JOB } },
             })
-          : location.reload();
+          : navigate(-1);
       }, 3000);
     } catch (error) {
       console.log(error);
@@ -187,10 +188,23 @@ function AddEmployee({ userType }) {
     }
   };
 
+  //for set default photo -------------
+  const fetchDefaultImage = async () => {
+    const defaultImageURL = noProfilePhoto;
+    const response = await fetch(defaultImageURL);
+    const blob = await response.blob();
+    const file = new File([blob], "defaultImage.jpg", {
+      type: "image/jpeg",
+    });
+    setSelectedFile(file);
+  };
+  // -----------------------------------
+
   useEffect(() => {
     getBranches("/branches");
     getJobsTypes();
     getCurrentDate();
+    fetchDefaultImage();
   }, []);
 
   useEffect(() => {

@@ -21,7 +21,13 @@ const cacheRtl = createCache({
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
-function DataTableAccordion({ columns, rows, detailColumns, detailRows }) {
+function DataTableAccordion({
+  columns,
+  rows,
+  detailColumns,
+  detailRows,
+  titleOfTable,
+}) {
   const existingTheme = useTheme();
   const theme = useMemo(
     () =>
@@ -71,10 +77,11 @@ function DataTableAccordion({ columns, rows, detailColumns, detailRows }) {
           row={row}
           detailColumns={detailColumns}
           detailRows={detailRows}
+          titleOfTable={titleOfTable}
         />
       );
     },
-    [detailColumns, detailRows]
+    [detailColumns, detailRows, titleOfTable]
   );
 
   const getDetailPanelHeight = useCallback(() => "auto", []);
@@ -153,6 +160,7 @@ DataTableAccordion.propTypes = {
   rows: PropTypes.array,
   detailColumns: PropTypes.array,
   detailRows: PropTypes.string,
+  titleOfTable: PropTypes.string,
 };
 
 export default DataTableAccordion;
