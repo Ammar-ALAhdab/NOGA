@@ -179,7 +179,7 @@ function Customers() {
             <ButtonComponent
               variant={"purchases"}
               small={true}
-              onClick={() => handleGetBranchById(params.id)}
+              onClick={() => navigate(`customerSoldProductsLog/${params.id}`)}
             />
           </div>
         );

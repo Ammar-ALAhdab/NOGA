@@ -268,7 +268,7 @@ function SystemSettings() {
 
   return (
     <main className="flex flex-col items-center justify-center w-full h-full flex-grow gap-4 ">
-      <Title text="إعدادات النظام" />
+      <Title text="إعدادات النظام:" />
       <section className="flex items-center justify-center flex-col gap-16 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         <div className="flex flex-col items-center justify-center gap-8 w-full">
           <SectionTitle text="تعديل قائمة المدن:" />

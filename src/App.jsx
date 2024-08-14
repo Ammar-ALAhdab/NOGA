@@ -238,6 +238,10 @@ export default function App() {
               <Route path="addCustomer" element={<AddCustomer />} />
               <Route path="makeSale" element={<MakeSale />} />
               <Route path="soldProductsLog" element={<SoldProductsLog />} />
+              <Route
+                path="customers/customerSoldProductsLog/:customerID"
+                element={<SoldProductsLog customerRecords={true} />}
+              />
             </Route>
           </Route>
           {/* ----- End Sales Officer Routes ----- */}

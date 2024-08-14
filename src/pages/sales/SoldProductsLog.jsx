@@ -12,6 +12,8 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import SectionTitle from "../../components/titles/SectionTitle";
 import SearchComponent from "../../components/inputs/SearchComponent";
 import currencyFormatting from "../../util/currencyFormatting";
+import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
 const columns = [
   { field: "id", headerName: "", width: 50 },
@@ -61,7 +63,7 @@ const initialFilterState = {
   orderingType: "",
 };
 
-const ORDERING_FIELDS = [{ id: "date_of_request", title: "التاريخ" }];
+const ORDERING_FIELDS = [{ id: "date_of_purchase", title: "التاريخ" }];
 
 const ORDERING_TYPE = [
   { id: 1, title: "تصاعدي" },
@@ -79,8 +81,8 @@ const reducer = (state, action) => {
   }
 };
 
-function SoldProductsLog() {
-  const [productsTransportLog, setProductsTransportLog] = useState([]);
+function SoldProductsLog({ customerRecords = false }) {
+  const [productsSoldLog, setProductsSoldLog] = useState([]);
   const [paginationSettings, setPaginationSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -93,6 +95,13 @@ function SoldProductsLog() {
   const [scrollTop, setScrollTop] = useState(0);
   const branchID = JSON.parse(localStorage.getItem("branchID"));
   const branchName = JSON.parse(localStorage.getItem("branchName"));
+  const { customerID } = useParams();
+  const LINK = customerRecords
+    ? `customer_id=${customerID}`
+    : `branch_id=${branchID}`;
+  const TITLE = customerRecords
+    ? `سجل مشتريات الزبون: ${productsSoldLog[0]?.customerName}`
+    : `سجل المشتريات فرع ${branchName}: `;
 
   const handleFilterTerms = (e) => {
     const { name, value } = e.target;
@@ -108,14 +117,14 @@ function SoldProductsLog() {
     let filter = orderingFilter;
     setFilterTerms(filter);
     setPage(1);
-    getPurchasedProducts(`/purchase?branch_id=${branchID}${filter}`);
+    getPurchasedProducts(`/purchase?${LINK}${filter}`);
     handleCloseFilter();
   };
 
   const handleChangePage = (event, value) => {
     setPage(value);
     getPurchasedProducts(
-      `/purchase?branch_id=${branchID}&page=${value}${
+      `/purchase?${LINK}&page=${value}${
         searchQuery ? `&search=${searchQuery}` : ""
       }${state.filter ? `${filterTerms}` : ""}`
     );
@@ -131,9 +140,7 @@ function SoldProductsLog() {
   const handleSearchClick = () => {
     setPage(1);
 
-    getPurchasedProducts(
-      `/purchase?branch_id=${branchID}&search=${searchQuery}`
-    );
+    getPurchasedProducts(`/purchase?${LINK}&search=${searchQuery}`);
   };
 
   const formatting = (unFormattedData) => {
@@ -150,12 +157,12 @@ function SoldProductsLog() {
           return {
             id: p.product_id,
             price: currencyFormatting(p.selling_price),
-            totalPrice:
-              currencyFormatting(Number(p.selling_price) *
-              Number(p.purchased_quantity)),
+            totalPrice: currencyFormatting(
+              Number(p.selling_price) * Number(p.purchased_quantity)
+            ),
             purchased_quantity: p.purchased_quantity,
-            product_name: p?.product?.product_name,
-            category_name: p?.product?.category_name,
+            product_name: p?.product_name,
+            category_name: p?.category_type,
           };
         }),
       };
@@ -171,15 +178,13 @@ function SoldProductsLog() {
     }, 300);
   };
 
-  const getPurchasedProducts = async (
-    link = `/purchase?branch_id=${branchID}`
-  ) => {
+  const getPurchasedProducts = async (link = `/purchase?${LINK}`) => {
     try {
       setLoading(true);
       setError(null);
       const response = await axiosPrivate.get(link);
       const data = formatting(response?.data?.results);
-      setProductsTransportLog(data);
+      setProductsSoldLog(data);
       setPaginationSettings({
         count: response?.data?.count,
         next: response?.data?.next,
@@ -197,9 +202,13 @@ function SoldProductsLog() {
     getPurchasedProducts();
   }, []);
 
+  useEffect(() => {
+    getPurchasedProducts();
+  }, [customerRecords]);
+
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">
-      <Title text={`سجل المشتريات فرع ${branchName}: `} />
+      <Title text={TITLE} />
       <section className="flex items-center justify-center flex-col gap-4 w-full bg-white rounded-[30px] py-8 px-4 my-box-shadow">
         {/* ################################### START SEARCH AND FILTER ################################### */}
         <div className="flex flex-col items-center justify-center gap-2 w-full">
@@ -272,7 +281,7 @@ function SoldProductsLog() {
         ) : (
           <DataTableAccordion
             columns={columns}
-            rows={productsTransportLog}
+            rows={productsSoldLog}
             detailColumns={detailColumns}
             detailRows={"purchasedProducts"}
             titleOfTable="الفاتورة"
@@ -288,5 +297,9 @@ function SoldProductsLog() {
     </main>
   );
 }
+
+SoldProductsLog.propTypes = {
+  customerRecords: PropTypes.bool,
+};
 
 export default SoldProductsLog;
