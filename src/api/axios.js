@@ -8,7 +8,10 @@ const BASE_URL = "https://nogaproject.onrender.com/api";
 
 export default axios.create({
   baseURL: BASE_URL,
-  headers: { "Content-Type": "application/json" },
+  headers: {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "https://noga-zhni.onrender.com",
+  },
   withCredentials: true,
 });
 
