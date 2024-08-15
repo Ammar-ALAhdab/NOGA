@@ -4,7 +4,7 @@ import axios from "axios";
 // const BASE_URL = "http://127.0.0.1:8000/api";
 
 // FOR SERVER
-const BASE_URL = "https//nogaproject.onrender.com";
+const BASE_URL = "https://nogaproject.onrender.com/api";
 
 export default axios.create({
   baseURL: BASE_URL,
