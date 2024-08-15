@@ -10,8 +10,8 @@ function ScreenSizeAlert() {
       />
       <div className="flex justify-center items-center flex-col gap-2 w-full text-center">
         <h1 className="ar-txt text-3xl sm:text-5xl mb-2">أووه...لا!</h1>
-        <p className="ar-txt text-lg sm:text-2xl">{`من فضلك استخدم شاشة بعرض 800 بكسل أو أعلى،`}</p>
-        <p className=" text-lg sm:text-2xl">{`.وذلك لتوفير تجربة ملائمة عند استخدام النظام`}</p>
+        <p className="ar-txt text-sm sm:text-2xl">{`من فضلك استخدم شاشة بعرض 800 بكسل أو أعلى،`}</p>
+        <p className=" text-sm sm:text-2xl">{`.وذلك لتوفير تجربة ملائمة عند استخدام النظام`}</p>
       </div>
     </main>
   );
