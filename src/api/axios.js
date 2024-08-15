@@ -14,12 +14,18 @@ export default axios.create({
 
 export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
-  headers: { "Content-Type": "application/json" },
+  headers: {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "https://noga-zhni.onrender.com",
+  },
   withCredentials: true,
 });
 
 export const axiosPrivateEmployee = axios.create({
   baseURL: BASE_URL,
-  headers: { "Content-Type": "multipart/form-data" },
+  headers: {
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "https://noga-zhni.onrender.com",
+  },
   withCredentials: true,
 });
