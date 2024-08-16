@@ -31,9 +31,9 @@ const initialFilterState = {
 };
 
 const ORDERING_FIELDS = [
-  { id: "product_name", title: "اسم المنتج" },
-  { id: "selling_price", title: "سعر المبيع" },
-  { id: "quantity", title: "الكمية" },
+  { id: "product__product_name", title: "اسم المنتج" },
+  { id: "product__selling_price", title: "سعر المبيع" },
+  { id: "product__quantity", title: "الكمية" },
 ];
 
 const ORDERING_TYPE = [

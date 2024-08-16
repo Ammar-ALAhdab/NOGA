@@ -6,7 +6,7 @@ import Title from "../../components/titles/Title";
 import useGoToBack from "../../hooks/useGoToBack";
 import EmailInputComponent from "../../components/inputs/EmailInputComponent";
 import SectionTitle from "../../components/titles/SectionTitle";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSelectedImg from "../../hooks/useSelectedImg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
@@ -31,7 +31,7 @@ function EmployeeDetails() {
   const [jobsTypes, setJobsTypes] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-
+  console.log(employeeInfo);
   const {
     state,
     national_number,
@@ -93,11 +93,6 @@ function EmployeeDetails() {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    getBranches("/branches");
-    getJobsTypes("/job-types");
-  }, []);
 
   useEffect(() => {
     setBranchName(branches.find((b) => b.id == state.branch));
@@ -164,7 +159,6 @@ function EmployeeDetails() {
           }
         }
         formData.append("image", selectedFile);
-        console.log(selectedFile);
         axiosPrivateEmployee
           .put(`employees/${id}`, formData, {
             headers: {
@@ -192,6 +186,11 @@ function EmployeeDetails() {
       }
     });
   };
+
+  useEffect(() => {
+    getBranches("/branches");
+    getJobsTypes("/job-types");
+  }, []);
 
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow gap-4">

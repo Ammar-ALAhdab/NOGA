@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Title from "../../components/titles/Title";
 import useLocationState from "../../hooks/useLocationState";
 import currencyFormatting from "../../util/currencyFormatting";
@@ -16,7 +16,8 @@ import TextInputComponent from "../../components/inputs/TextInputComponent";
 import useSaleContext from "../../hooks/useSaleContext";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useScreenshot, createFileName } from "use-react-screenshot";
+import BillTable from "../../components/table/BillTable";
+import ReactDOMServer from "react-dom/server";
 
 const formatting = (unFormattedData) => {
   const rowsData = {
@@ -60,21 +61,6 @@ function MakeSale() {
   const axiosPrivate = useAxiosPrivate();
   const handleClickBack = useGoToBack();
   const branchID = JSON.parse(localStorage.getItem("branchID"));
-  // For Take Snap Shot Of bill
-const ref = useRef(null);
-  const [image, takeScreenShot] = useScreenshot({
-    type: "image/jpeg",
-    quality: 1.0,
-  });
-
-  const download = (image, { name = "img", extension = "jpg" } = {}) => {
-    const a = document.createElement("a");
-    a.href = image;
-    a.download = createFileName(extension, name);
-    a.click();
-  };
-
-  const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
 
   const updateFunction = (newRow) => {
     setSelectedProducts(
@@ -180,8 +166,9 @@ const ref = useRef(null);
                 icon: "success",
               });
               setSelectedProducts([]);
-              navigate(-1)
-              downloadScreenshot()
+              setTimeout(() => {
+                handlePrintBill();
+              }, 1500);
             })
             .catch((error) => {
               console.error(error);
@@ -263,6 +250,131 @@ const ref = useRef(null);
     getProducts();
   }, []);
 
+  const handlePrintBill = () => {
+    // Create a new window
+    const imageWindow = window.open("", "_blank");
+
+    // Render the BillTable component to an HTML string
+    const billTableHtml = ReactDOMServer.renderToStaticMarkup(
+      <BillTable
+        data={{
+          products: uniqueSelectedProducts,
+          customer: customer.fullName,
+        }}
+      />
+    );
+
+    // Write the HTML string to the new window with inline styles
+    if (imageWindow) {
+      imageWindow.document.write(`
+            <html>
+            <head>
+                <style>
+                    /* Include your Tailwind CSS styles here */
+                    .max-w-4xl {
+  max-width: 60rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.ar-txt {
+  direction: rtl;
+}
+
+.border {
+  border: 1px solid #000;
+}
+
+.border-black {
+  border-color: #000;
+}
+  .border {
+  border-width: 1px;
+}
+.border-b {
+  border-bottom: 1px solid #000;
+}
+
+.border-l {
+  border-left: 1px solid #000;
+}
+                    body {
+                        font-family: "Cairo", sans-serif !important;
+                    }
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    th, td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                    }
+                </style>
+            </head>
+            <body>
+                ${billTableHtml}
+            </body>
+            </html>
+        `);
+
+      setTimeout(() => {
+        imageWindow.print();
+      }, 1500);
+    } else {
+      alert("Popup blocked! Please allow popups for this site.");
+    }
+  };
+
   return (
     <main className="flex flex-col items-center justify-between w-full h-full flex-grow">
       <Title text={"إجراء عملية بيع:"} />
@@ -315,10 +427,7 @@ const ref = useRef(null);
           ) : errorProducts ? (
             <NoDataError error={errorProducts} />
           ) : uniqueSelectedProducts.length > 0 ? (
-            <div
-              className="flex flex-col justify-start items-center gap-4 p-4"
-              ref={ref}
-            >
+            <div className="flex flex-col justify-start items-center gap-4 p-4">
               <DataTableEditRow
                 columns={columns}
                 rows={uniqueSelectedProducts}
@@ -333,7 +442,7 @@ const ref = useRef(null);
           ) : null}
 
           <div className="flex items-center justify-end gap-4 w-full">
-            <ButtonComponent variant={"back"} onClick={downloadScreenshot} />
+            <ButtonComponent variant={"back"} onClick={handleClickBack} />
             <ButtonComponent
               variant={"procedure"}
               onClick={handleMakeSale}
