@@ -31,7 +31,8 @@ function Statistics() {
   const getBranchesEarnings = async (link) => {
     try {
       const response = await axiosPrivate.get(link);
-      setBranchesEarnings(response.data);
+      const filter = response.data.filter((b) => b.branch_id != 1);
+      setBranchesEarnings(filter);
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +50,9 @@ function Statistics() {
   const getBranchesIncomings = async (link) => {
     try {
       const response = await axiosPrivate.get(link);
-      setBranchesIncomings(response.data);
+      const filter = response.data.filter((b) => b.branch_id != 1);
+
+      setBranchesIncomings(filter);
     } catch (error) {
       console.log(error);
     }
@@ -146,22 +149,26 @@ function Statistics() {
         <div className="flex flex-col items-center justify-center w-full gap-4">
           <SectionTitle text={"المخططات البيانية:"} />
           <div className="w-full flex flex-wrap items-center justify-center">
-            <BarChartComponent
-              data={branchesEarnings}
-              fill="#7049A3"
-              hoverFill="#D9A322"
-              dataKey="total_earning"
-              Yvalue="الأرباح بالليرة السورية"
-              title="الأرباح للأفرع"
-            />
-            <BarChartComponent
-              data={branchesIncomings}
-              fill="#2DBDA8"
-              hoverFill="#D9A322"
-              dataKey="total"
-              Yvalue="العائدات بالليرة السورية"
-              title="العائدات للأفرع"
-            />
+            <div className="flex-1 flex items-center justify-center">
+              <BarChartComponent
+                data={branchesEarnings}
+                fill="#7049A3"
+                hoverFill="#D9A322"
+                dataKey="total_earning"
+                // Yvalue="الأرباح بالليرة السورية"
+                title="الأرباح للأفرع"
+              />
+            </div>
+            <div className="flex-1 flex items-center justify-center">
+              <BarChartComponent
+                data={branchesIncomings}
+                fill="#2DBDA8"
+                hoverFill="#D9A322"
+                dataKey="total"
+                // Yvalue="العائدات بالليرة السورية"
+                title="العائدات للأفرع"
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -12,7 +12,7 @@ import {
 
 const BarChartComponent = ({ data, Yvalue, dataKey, fill, hoverFill , title }) => {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 w-1/2">
+    <div className="flex flex-col items-center justify-center gap-2 w-full">
       <Text
         x={400}
         y={20}
@@ -38,6 +38,7 @@ const BarChartComponent = ({ data, Yvalue, dataKey, fill, hoverFill , title }) =
               value: Yvalue,
               angle: -90,
               position: "insideLeft",
+              offset: -17,
             }}
           />
           <Tooltip />
