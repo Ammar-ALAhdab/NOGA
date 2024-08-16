@@ -94,7 +94,7 @@ function Branches() {
       state.managerName && managerID != undefined
         ? `&manager=${managerID?.id}`
         : "";
-    let cityFilter = state.jobType ? `&city=${state.city}` : "";
+    let cityFilter = state.city ? `&city=${state.city}` : "";
     let orderingTypeFilter =
       state.orderingType == 1 || state.orderingType == "" ? "" : "-";
     let orderingFilter = state.ordering
@@ -128,12 +128,11 @@ function Branches() {
     document.documentElement.scrollTop = 0;
   };
 
-    const handleSearchClick = () => {
-      setPage(1);
+  const handleSearchClick = () => {
+    setPage(1);
 
-      getBranches(`/branches?search=${searchQuery}`);
-    };
-
+    getBranches(`/branches?search=${searchQuery}`);
+  };
 
   const handleCloseFilter = () => {
     setFilterShow(false);
@@ -203,7 +202,6 @@ function Branches() {
       console.error(error);
     }
   };
-
 
   const columns = [
     { field: "id", headerName: "ID", width: 50 },
@@ -283,7 +281,7 @@ function Branches() {
                   data={cities}
                   dataTitle={"city_name"}
                   value={state.city}
-                  label={"فلترة حسب الوظيفة"}
+                  label={"فلترة حسب المدينة"}
                   name={"city"}
                   onChange={handleFilterTerms}
                 />
