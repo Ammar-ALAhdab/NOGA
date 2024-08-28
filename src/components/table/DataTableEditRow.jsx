@@ -18,9 +18,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import { LicenseInfo } from "@mui/x-license";
 
-LicenseInfo.setLicenseKey(
-  "e0d9bb8070ce0054c9d9ecb6e82cb58fTz0wLEU9MzI0NzIxNDQwMDAwMDAsUz1wcmVtaXVtLExNPXBlcnBldHVhbCxLVj0y"
-);
+LicenseInfo.setLicenseKey("*********************************************");
 
 const cacheRtl = createCache({
   key: "data-grid-rtl-demo",
@@ -107,7 +105,7 @@ function DataTableEditRow({
     visualColumns.push(lastColumn);
   }
 
-  console.log(visualColumns)
+  console.log(visualColumns);
 
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };

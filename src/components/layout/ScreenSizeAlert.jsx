@@ -2,7 +2,7 @@ import screen_size from "../../assets/general/screen_size.svg";
 
 function ScreenSizeAlert() {
   return (
-    <main className="flex justify-start items-center pt-20 errBg bg-center z-20 absolute w-full h-[300%] flex-col text-gray-800 gap-4 bg-[#86c2b9]">
+    <main className="flex justify-start items-center pt-2 errBg bg-center z-20 absolute w-full h-[300%] flex-col text-gray-800 gap-2 bg-[#86c2b9]">
       <img
         src={screen_size}
         alt="screen_size"

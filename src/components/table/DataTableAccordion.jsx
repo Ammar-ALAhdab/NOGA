@@ -12,9 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import TableAccordion from "./TableAccordion";
 
-LicenseInfo.setLicenseKey(
-  "e0d9bb8070ce0054c9d9ecb6e82cb58fTz0wLEU9MzI0NzIxNDQwMDAwMDAsUz1wcmVtaXVtLExNPXBlcnBldHVhbCxLVj0y"
-);
+LicenseInfo.setLicenseKey("*********************************************");
 
 const cacheRtl = createCache({
   key: "data-grid-rtl-demo",
