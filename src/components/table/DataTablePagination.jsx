@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { DataGridPro } from "@mui/x-data-grid-pro";
 import { LicenseInfo } from "@mui/x-license";
 
-LicenseInfo.setLicenseKey("*********************************************");
+LicenseInfo.setLicenseKey("**************");
 
 const cacheRtl = createCache({
   key: "data-grid-rtl-demo",

@@ -18,7 +18,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import { LicenseInfo } from "@mui/x-license";
 
-LicenseInfo.setLicenseKey("*********************************************");
+LicenseInfo.setLicenseKey("**************");
 
 const cacheRtl = createCache({
   key: "data-grid-rtl-demo",
